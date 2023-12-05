@@ -11,6 +11,9 @@
       rel="stylesheet"
     />
     <style>
+      * {
+        -webkit-tap-highlight-color: transparent;
+      }
       body {
         margin: 0;
         background-color: rgb(47, 47, 47);
@@ -18,28 +21,549 @@
         justify-content: center;
         align-items: center;
         min-height: 100dvh;
+        font-family: sans-serif;
       }
       .main {
         position: relative;
         width: 60%;
+        max-width: 350px;
         aspect-ratio: 3/5;
-        background-image: url(https://i.pinimg.com/564x/11/e1/07/11e107b62c8d5f5fd2e50cead00625f8.jpg);
+        background-image: url(Assets/Backgrounds/Static/background1.jpg);
         background-size: 100% 100%;
         background-position: center;
         background-repeat: no-repeat;
         box-sizing: border-box;
         border: 2px solid white;
         border-radius: 10px;
+        overflow: hidden;
       }
+      .images {
+        position: absolute;
+        object-fit: cover;
+        object-position: center;
+        mask-position: center;
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        -webkit-mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+      }
+      .text {
+        position: absolute;
+        background-color: transparent;
+        text-align: left;
+        width: 200px;
+        display: grid;
+        place-content: center;
+        color: rgb(0, 0, 0);
+        box-sizing: border-box;
+      }
+      .text::-webkit-scrollbar {
+        height: 0;
+        width: 0;
+      }
+      /* loading */
+      .loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        z-index: 999;
+        display: grid;
+        place-content: center;
+        backdrop-filter: blur(10px);
+      }
+      .loading div {
+        height: 200px;
+        aspect-ratio: 5/4;
+        background-image: url("Assets/uicomponents/loading1.gif");
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-color: white;
+        border-radius: 20px;
+      }
+      .loading span {
+        display: block;
+        color: white;
+        margin: auto;
+        margin-top: 20px;
+        user-select: none;
+      }
+      /* alert */
+      .alert {
+        position: fixed;
+        height: 60px;
+        width: calc(100% - 20px);
+        max-width: 400px;
+        background-image: linear-gradient(135deg, grey, rgb(83, 83, 83));
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 500;
+        box-sizing: border-box;
+        padding: 10px;
+        border-radius: 10px;
+        animation: alertshow 0.3s forwards;
+        display: none;
+      }
+      .alert img {
+        height: 100%;
+        padding: 5px;
+        box-sizing: border-box;
+      }
+      .alert .message {
+        color: white;
+      }
+      .alert button {
+        height: 100%;
+        aspect-ratio: 1;
+        background-color: transparent;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        font-size: 20px;
+      }
+      .alert button:hover {
+        background-color: rgb(0, 170, 255);
+      }
+      .loadingline {
+        position: absolute;
+        bottom: 0;
+        width: calc(100% - 20px);
+        border-radius: 5px;
+        height: 2px;
+        background-color: rgb(0, 170, 255);
+        animation: laodinglineanimation 3s linear forwards;
+      }
+      @keyframes laodinglineanimation {
+        0% {
+          width: calc(100% - 20px);
+        }
+        100% {
+          width: 0;
+        }
+      }
+      @keyframes alertshow {
+        0% {
+          top: 0;
+        }
+        100% {
+          top: 10px;
+        }
+      }
+      /*  */
+
+      .menu {
+        height: 100vh;
+        width: 400px;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: 0;
+        background-color: rgb(47, 47, 47);
+        z-index: 100;
+        border-left: 2px solid rgb(160, 160, 160);
+        padding: 10px;
+        box-sizing: border-box;
+        transform: translateX(30%);
+        opacity: 0;
+        transition: 0.2s;
+        pointer-events: none;
+      }
+      .menubutton {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        z-index: 200;
+        aspect-ratio: 1;
+        height: 40px;
+        border-radius: 100px;
+        background-color: rgb(47, 47, 47);
+        background-image: url("Assets/uicomponents/menu.svg");
+        background-size: 60%;
+        background-repeat: no-repeat;
+        background-position: center;
+        color: white;
+        cursor: pointer;
+      }
+      .menubutton:hover {
+        background-color: rgb(0, 170, 255);
+      }
+      .menu .logo {
+        margin: auto;
+        margin-top: 30px;
+        margin-bottom: 0;
+        font-size: 40px;
+        font-family: Dancing Script;
+        font-weight: 600;
+        background-image: linear-gradient(
+          135deg,
+          rgb(0, 102, 255),
+          rgb(192, 238, 255)
+        );
+        background-clip: Text;
+        color: transparent;
+        -webkit-background-clip: Text;
+      }
+      .linkbox {
+        height: 40px;
+        width: 100%;
+        background-color: rgb(116, 116, 116);
+        margin-top: 50px;
+        display: flex;
+        align-items: center;
+        border-radius: 10px;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+      .linkbox .link {
+        padding-inline: 10px;
+        overflow-x: scroll;
+        text-wrap: nowrap;
+        color: white;
+        text-decoration: underline;
+        text-indent: 20px;
+        padding-right: 30px;
+        mask-image: linear-gradient(
+          90deg,
+          transparent 5%,
+          black 10% 90%,
+          transparent 95%
+        );
+        -webkit-mask-image: linear-gradient(
+          90deg,
+          transparent 5%,
+          black 10% 90%,
+          transparent 95%
+        );
+      }
+      .linkbox .link::-webkit-scrollbar {
+        height: 0;
+      }
+      .copylinkbtn {
+        height: 100%;
+        background-color: rgb(0, 170, 255);
+        border: none;
+        border-left: 1px solid white;
+        color: white;
+        cursor: pointer;
+        min-width: 80px;
+        margin-left: auto;
+      }
+      /*  */
+      .shareButtonContainer {
+        height: 40px;
+        width: 100%;
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+        box-sizing: border-box;
+      }
+      .shareicons {
+        height: 100%;
+        aspect-ratio: 1;
+        background-color: white;
+        border-radius: 50%;
+        display: flex;
+        padding: 5px;
+        box-shadow: 2px 2px 4px 0px rgb(0, 0, 0);
+        box-sizing: border-box;
+        cursor: pointer;
+        transition: 0.1s;
+      }
+      .shareicons:hover {
+        background-color: rgb(0, 170, 255);
+      }
+      .shareicons img {
+        min-height: 100%;
+      }
+      .shareicons:hover img {
+        filter: brightness(100);
+      }
+      /* mobile view */
       @media screen and (width<450px) {
         .main {
-          width: 100%;
+          width: 97%;
           border-radius: 10px;
+        }
+        .menu {
+          width: 100%;
+        }
+        .menubutton {
+          background-color: rgb(0, 170, 255);
+        }
+      }
+    </style>
+    <!-- fade effects -->
+    <style>
+      @keyframes Pop_out {
+        0% {
+          transform: scale(0);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      @keyframes Pop_in {
+        0% {
+          transform: scale(5);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      @keyframes Slide_left {
+        0% {
+          transform: translateX(50px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateX(0px);
+          opacity: 1;
+        }
+      }
+      @keyframes Slide_right {
+        0% {
+          transform: translateX(-50px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateX(0px);
+          opacity: 1;
+        }
+      }
+      @keyframes Slide_top {
+        0% {
+          transform: translateY(50px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0px);
+          opacity: 1;
+        }
+      }
+      @keyframes Slide_bottom {
+        0% {
+          transform: translateY(-50px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0px);
+          opacity: 1;
+        }
+      }
+      @keyframes Fade_out {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
         }
       }
     </style>
   </head>
   <body>
+    <div class="loading">
+      <div></div>
+      <span>Loading...</span>
+    </div>
+    <div class="alert">
+      <img src="Assets/uicomponents/alert1.svg" alt="" />
+      <div class="message"></div>
+      <button onclick="hidealert()">X</button>
+      <div class="loadingline"></div>
+    </div>
+    <button class="menubutton" onclick="togglemenu(this)"></button>
+    <div class="menu">
+      <div class="logo">Online Invitation</div>
+      <div class="linkbox">
+        <div class="link"></div>
+        <button class="copylinkbtn" onclick="copytoclipboard()">
+          Copy link
+        </button>
+      </div>
+      <div class="shareButtonContainer">
+        <div class="shareicons whatsapp" onclick="share('whatsapp')">
+          <img src="Assets/uicomponents/whatsapplogo.svg" alt="" />
+        </div>
+        <div class="shareicons whatsapp">
+          <img src="Assets/uicomponents/whatsapplogo.svg" alt="" />
+        </div>
+        <div class="shareicons whatsapp">
+          <img src="Assets/uicomponents/whatsapplogo.svg" alt="" />
+        </div>
+      </div>
+    </div>
     <div class="main"></div>
+
+    <!-- ui -->
+    <script>
+      let link = new URL(location.href);
+      document.querySelector(".link").innerHTML = link;
+      // copytoclipboard function
+      function copytoclipboard() {
+        navigator.clipboard.writeText(link);
+        showalertbox("Link copied!");
+      }
+      // toggle menu
+      let menuflag = true;
+      function togglemenu(value) {
+        if (menuflag) {
+          document.querySelector(".menu").style.transform = "translateX(0%)";
+          document.querySelector(".menu").style.opacity = 1;
+          document.querySelector(".menu").style.pointerEvents = "unset";
+          value.style.backgroundImage =
+            'url("Assets/uicomponents/whitecross.svg")';
+          menuflag = false;
+        } else {
+          document.querySelector(".menu").style.transform = "translateX(30%)";
+          document.querySelector(".menu").style.opacity = 0;
+          document.querySelector(".menu").style.pointerEvents = "none";
+          value.style.backgroundImage = 'url("Assets/uicomponents/menu.svg")';
+          menuflag = true;
+        }
+      }
+      // share
+      function share(value) {
+        if (value == "whatsapp") {
+          window.open("whatsapp://send?text=" + link);
+        }
+      }
+    </script>
+    <!-- card display -->
+    <script>
+      let main = document.querySelector(".main");
+      fetch("/previewdata?id=:" + link.searchParams.get("id"))
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          main.style.backgroundImage =
+            data[0].cardbackground == ""
+              ? "url(./Assets/Backgrounds/Static/background1.jpg)"
+              : data[0].cardbackground;
+          // setimage
+          data[0].images.forEach((item) => {
+            let image = document.createElement("img");
+            image.classList.add("images");
+            image.style.width =
+              "calc(" + (item.width / data[0].cardwidth) * 100 + "% + 4px)";
+            image.style.height =
+              "calc(" + (item.height / data[0].cardheight) * 100 + "% + 4px)";
+            image.style.left = (item.left / data[0].cardwidth) * 100 + "%";
+            image.style.top = (item.top / data[0].cardheight) * 100 + "%";
+            image.style.maskImage = item.mask;
+            image.style.webkitMaskImage = item.mask;
+            image.src = item.image;
+            main.appendChild(image);
+          });
+          // settext
+          data[0].texts.forEach((item) => {
+            let text = document.createElement("div");
+            text.classList.add("text");
+            text.innerText = item.innertext;
+            text.style.width = (item.width / data[0].cardwidth) * 100 + "%";
+            text.style.height = (item.height / data[0].cardheight) * 100 + "%";
+            text.style.left = (item.left / data[0].cardwidth) * 100 + "%";
+            text.style.top = (item.top / data[0].cardheight) * 100 + "%";
+            // gradient colors
+            if (item.color == "transparent") {
+              text.style.backgroundImage =
+                " linear-gradient(" +
+                item.gangle +
+                "deg," +
+                item.gcolor1 +
+                "," +
+                item.gcolor2 +
+                ")";
+              text.style.color = "transparent";
+              text.style.backgroundClip = "text";
+              text.style.webkitBackgroundClip = "text";
+            } else {
+              text.style.color = item.color == "" ? "black" : item.color;
+            }
+            //
+            text.style.fontFamily =
+              item.fontFamily == "" ? "Calibri" : item.fontFamily;
+            text.style.fontStyle =
+              item.fontStyle == "" ? "normal" : item.fontStyle;
+            text.style.fontWeight =
+              item.fontWeight == "" ? "400" : item.fontWeight;
+            text.style.textAlign =
+              item.textAlign == "" ? "left" : item.textAlign;
+            // glow
+            if (item.glowvalues.value == 0) {
+              text.style.textShadow = "none";
+            } else {
+              text.style.textShadow =
+                "0 0 " +
+                item.glowvalues.value * 3 * 1 +
+                "px " +
+                item.glowvalues.color +
+                " ,0 0 " +
+                item.glowvalues.value * 3 * 1.5 +
+                "px " +
+                item.glowvalues.color +
+                " , 0 0 " +
+                item.glowvalues.value * 3 * 2 +
+                "px " +
+                item.glowvalues.color;
+            }
+
+            main.appendChild(text);
+          });
+          fontresize();
+          //
+          setTimeout(() => {
+            document.querySelector(".loading").style.display = "none";
+            // animation effects
+            main.childNodes.forEach((elem, i) => {
+              elem.style.animation =
+                data[0].animation + " 0.5s " + i * 0.1 + "s forwards";
+            });
+          }, 2500);
+        })
+        .catch((err) => {
+          document.querySelector(".loading").style.display = "none";
+          showalertbox("Unable to preview");
+        });
+      // font resize
+      function fontresize() {
+        document.querySelectorAll(".text").forEach((item) => {
+          item.style.fontSize = item.offsetHeight / 4 + "px";
+        });
+      }
+      // show alert box
+      let alerttimer;
+      function showalertbox(value) {
+        document.querySelector(".alert").style.display = "none";
+        setTimeout(() => {
+          document.querySelector(".alert").style.display = "flex";
+          document.querySelector(".message").innerHTML = value;
+          clearTimeout(alerttimer);
+          alerttimer = setTimeout(() => {
+            document.querySelector(".alert").style.display = "none";
+          }, 3000);
+        }, 1);
+      }
+      // hidealert
+      function hidealert() {
+        document.querySelector(".alert").style.display = "none";
+      }
+      //
+      window.onresize = fontresize;
+    </script>
   </body>
 </html>

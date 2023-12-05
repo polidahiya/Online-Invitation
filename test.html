@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Convert to JPEG</title>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+      #myDiv {
+        background-color: red;
+        width: 180px;
+        aspect-ratio: 3/5;
+      }
+      img{
+        width: 180px;
+        aspect-ratio: 3/5;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="myDiv">
+      <p>Hello, this is my content!</p>
+    </div>
+
+    <button id="convertButton">Convert to JPEG</button>
+
+    <script>
+      document
+        .getElementById("convertButton")
+        .addEventListener("click", function () {
+          // Use html2canvas with custom options
+          html2canvas(document.getElementById("myDiv"), {
+            width: 180,
+            height: 300,
+          }).then(function (canvas) {
+            var imageData = canvas.toDataURL("image/jpeg");
+            var link = document.createElement("img");
+            link.src = imageData;
+            document.body.appendChild(link)
+          });
+        });
+    </script>
+  </body>
+</html>
