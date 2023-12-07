@@ -38,6 +38,7 @@
         box-sizing: border-box;
         position: fixed;
         top: 0;
+        z-index: 100;
       }
       .leftnav,
       .rightnav {
@@ -89,7 +90,7 @@
       }
       /*  */
       .backgroundimage {
-        position: absolute;
+        position: fixed;
         top: 50px;
         left: 0;
         height: 400px;
@@ -114,6 +115,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        z-index: 100;
       }
       .createyourown a {
         height: 35px;
@@ -167,6 +169,7 @@
       .cardcontainer {
         height: 320px;
         width: calc(100vw - 20px);
+        max-width: 80vw;
         background-color: rgb(255, 255, 255);
         border-radius: 15px;
         margin: auto;
@@ -224,6 +227,7 @@
         place-content: center;
         backdrop-filter: blur(10px);
         display: none;
+        z-index: 100;
       }
       .canclebutton {
         height: 40px;
@@ -474,14 +478,324 @@
         <div></div>
       </a>
     </div>
+    <!-- headlines -->
     <style>
-      .highlights {
-        height: 300px;
+      .highlightscontainer {
+        position: relative;
+        height: 400px;
+        width: 80vw;
+        overflow: hidden;
+        box-sizing: border-box;
+        color: white;
+        margin: auto;
+        border-radius: 12px;
+        margin-top: 100px;
+        margin-bottom: 50px;
+      }
+      .highlightscontainer:hover .buttons {
+        opacity: 1;
+      }
+      .highlightscrollingscontainer {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        position: absolute;
+        transition: 0.4s;
+      }
+      .headingcards {
+        box-sizing: border-box;
+        height: 100%;
+        aspect-ratio: 1;
+        background-image: url("https://t3.ftcdn.net/jpg/05/73/95/90/360_F_573959050_BXeecXwfgIlMFGdOfHRiSdedBealWU5Q.jpg");
+        background-size: cover;
+        background-position: center;
+        transition: 0.4s;
+        border-radius: 12px;
+        transform: translateX(-785px);
+        filter: brightness(0.6);
+      }
+      .headingcards::before{
+        position: absolute;
+        content: "";
+        inset: 0;
+        background-image: linear-gradient(90deg,rgba(0, 0, 0, 0.486),transparent);
+        border-radius: inherit;
+        z-index: 0;
+      }
+      .headingcards:nth-of-type(3) {
+        aspect-ratio: 7/4;
+        filter: brightness(1);
+        font-size: 25px;
+      }
+      .highlightstext{
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        position: absolute;
+        z-index: 10;
+        top: 50%;
+        left: 10%;
+        width: 300px;
+        transform: translateY(-50%);
+      }
+      /*  */
+      .highlightscontainer button {
+        position: absolute;
+        height: 50px;
+        aspect-ratio: 1;
+        top: calc(50% - 25px);
+        cursor: pointer;
+        border: none;
+        border-radius: 50%;
+        background-color: transparent;
+        background-image: url(Assets/uicomponents/arrow.svg);
+        background-position: center;
+        background-size: 50%;
+        background-repeat: no-repeat;
+        z-index: 10;
+        opacity: 0;
+        transition: 0.3s;
+      }
+      .highlightscontainer:hover button {
+        opacity: 1;
+      }
+      .highlightscontainer button:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+      .highlightscontainer .left {
+        transform: rotate(180deg);
+        left: 20px;
+      }
+      .highlightscontainer .right {
+        left: unset;
+        right: 20px;
+      }
+      .specialright,
+      .specialleft {
+        position: absolute;
+        height: 100%;
+        width: 300px;
+        left: 745px;
+        z-index: 10;
+        opacity: 0;
+      }
+      .specialleft {
+        left: 0;
+        width: 25px;
+      }
+      /* dotts */
+      .dottscontainer {
+        position: absolute;
+        width: 200px;
+        left: calc(50% - 100px);
+        height: 30px;
+        bottom: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+      .dotts {
+        height: 6px;
+        aspect-ratio: 1;
+        background-color: rgb(255, 255, 255);
+        border-radius: 50%;
+      }
+      .dotts:nth-of-type(1) {
+        background-color: var(--theme);
+        height: 10px;
+      }
+      /* mobile view */
+      @media screen and (width<450px) {
+        .highlightscontainer {
+          height: unset;
+          width: calc(100% - 20px);
+          aspect-ratio: 7/4;
+        }
+        .headingcards {
+          height: 100%;
+          transform: translateX(calc((-100vw - 20px) * 7 / 6 + 40px));
+        }
+        .highlightscontainer button {
+          height: 100%;
+          aspect-ratio: unset;
+          width: 30px;
+          top: 0;
+          background-color: transparent;
+          border-radius: unset;
+          opacity: 1;
+          outline: none;
+        }
+        .highlightscontainer button:hover {
+          background-color: unset;
+        }
       }
     </style>
-    <div class="highlights">
-      
+    <div class="highlightscontainer">
+      <div class="specialleft" onclick="highlightsmove('left')"></div>
+      <button class="left" onclick="highlightsmove('left')"></button>
+      <div class="specialright" onclick="highlightsmove('right')"></div>
+      <button class="right" onclick="highlightsmove('right')"></button>
+      <div class="highlightscrollingscontainer">
+        <div class="headingcards"><div class="highlightstext">3. Life was fun when we were kids...</div></div>
+        <div class="headingcards"><div class="highlightstext">4. Life was fun when we were kids...</div></div>
+        <div class="headingcards"><div class="highlightstext">1. Life was fun when we were kids...</div></div>
+        <div class="headingcards"><div class="highlightstext">2. Life was fun when we were kids...</div></div>
+        <div class="headingcards"><div class="highlightstext">3. Life was fun when we were kids...</div></div>
+        <div class="headingcards"><div class="highlightstext">4. Life was fun when we were kids...</div></div>
+        <div class="headingcards"><div class="highlightstext">1. Life was fun when we were kids...</div></div>
+        <div class="headingcards"><div class="highlightstext">2. Life was fun when we were kids...</div></div>
+        <div class="headingcards"><div class="highlightstext">3. Life was fun when we were kids...</div></div>
+      </div>
+      <div class="dottscontainer"></div>
     </div>
+    <script>
+      let highlightcards = document.querySelectorAll(".headingcards");
+      let hightlightscontainer = document.querySelector(
+        ".highlightscrollingscontainer"
+      );
+      let arraylength = 4;
+      // add dotts
+      for (let i = 0; i < arraylength; i++) {
+        let dotts = document.createElement("div");
+        dotts.classList.add("dotts");
+        document.querySelector(".dottscontainer").appendChild(dotts);
+      }
+      function changedottscolor(value) {
+        if (value == arraylength) {
+          value = 0;
+        }
+        if (value == -1) {
+          value = arraylength - 1;
+        }
+        document.querySelectorAll(".dotts").forEach((item, i) => {
+          if (value == i) {
+            item.style.backgroundColor = " var(--theme)";
+            item.style.height = "10px";
+          } else {
+            item.style.backgroundColor = "white";
+            item.style.height = "6px";
+          }
+        });
+      }
+      //
+      let highlightscrolltimer;
+      let highlightsscrollvalue = 0;
+      function highlightsmove(dir) {
+        clearInterval(highlightscrolltimer);
+        sethighlightscrolltimer();
+        // left move
+        if (dir == "left") {
+          highlightcards.forEach((item) => {
+            item.style.transition = "0.4s";
+          });
+          hightlightscontainer.style.transition = "0.4s";
+          highlightsscrollvalue -= 1;
+          changedottscolor(highlightsscrollvalue);
+          //
+          if (window.innerWidth < 450) {
+            hightlightscontainer.style.transform =
+              "translateX(" +
+              -(
+                highlightsscrollvalue *
+                (((window.innerWidth - 20) * 4) / 7 + 10)
+              ) +
+              "px)";
+          } else {
+            hightlightscontainer.style.transform =
+              "translateX(" + -(highlightsscrollvalue * 410) + "px)";
+          }
+
+          changestyleofhighlights();
+          //
+          if (highlightsscrollvalue == -1) {
+            setTimeout(() => {
+              highlightcards.forEach((item) => {
+                item.style.transition = "none";
+              });
+              //
+              hightlightscontainer.style.transition = "none";
+              highlightsscrollvalue = arraylength - 1;
+              //
+              if (window.innerWidth < 450) {
+                hightlightscontainer.style.transform =
+                  "translateX(" +
+                  -(
+                    highlightsscrollvalue *
+                    (((window.innerWidth - 20) * 4) / 7 + 10)
+                  ) +
+                  "px)";
+              } else {
+                hightlightscontainer.style.transform =
+                  "translateX(" + -(highlightsscrollvalue * 410) + "px)";
+              }
+              changestyleofhighlights();
+            }, 400);
+          }
+        }
+        // right move
+        if (dir == "right") {
+          highlightcards.forEach((item) => {
+            item.style.transition = "0.4s";
+          });
+          hightlightscontainer.style.transition = "0.4s";
+          highlightsscrollvalue += 1;
+          changedottscolor(highlightsscrollvalue);
+          if (window.innerWidth < 450) {
+            hightlightscontainer.style.transform =
+              "translateX(-" +
+              highlightsscrollvalue *
+                (((window.innerWidth - 20) * 4) / 7 + 10) +
+              "px)";
+          } else {
+            hightlightscontainer.style.transform =
+              "translateX(-" + highlightsscrollvalue * 410 + "px)";
+          }
+          changestyleofhighlights();
+          if (highlightsscrollvalue == arraylength) {
+            setTimeout(() => {
+              highlightcards.forEach((item) => {
+                item.style.transition = "none";
+              });
+              //
+              hightlightscontainer.style.transition = "none";
+              highlightsscrollvalue = 0;
+              if (window.innerWidth < 450) {
+                hightlightscontainer.style.transform =
+                  "translateX(-" +
+                  highlightsscrollvalue *
+                    (((window.innerWidth - 20) * 4) / 7 + 10) +
+                  "px)";
+              } else {
+                hightlightscontainer.style.transform =
+                  "translateX(-" + highlightsscrollvalue * 410 + "px)";
+              }
+              changestyleofhighlights();
+            }, 400);
+          }
+        }
+      }
+      //
+      function changestyleofhighlights() {
+        highlightcards.forEach((item, i) => {
+          item.style.aspectRatio = "1";
+          item.style.filter = "brightness(0.6)";
+          item.style.fontSize="20px"
+          if (i == highlightsscrollvalue + 2) {
+            item.style.aspectRatio = "7/4";
+            item.style.filter = "brightness(1)";
+            item.style.fontSize="25px"
+          }
+        });
+      }
+      // auto move highlights
+      function sethighlightscrolltimer() {
+        highlightscrolltimer = setInterval(() => {
+          highlightsmove("right");
+        }, 5000);
+      }
+      sethighlightscrolltimer();
+    </script>
     <div class="cardcontainer">
       <div class="cardcontainertitle">Wedding cards</div>
       <div class="cardsscrollcontainer">
