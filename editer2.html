@@ -23,7 +23,7 @@
       }
       ::-webkit-scrollbar {
         background-color: transparent;
-        width: 5px;
+        width: 3px;
       }
       ::-webkit-scrollbar-thumb {
         border-radius: 20px;
@@ -209,7 +209,7 @@
         position: fixed;
         top: 60px;
         right: 0;
-        background-color: rgb(57, 57, 57);
+        background-color: rgba(57, 57, 57);
         transition: 0.3s;
         border-radius: 10px 0px 0px 10px;
         box-sizing: border-box;
@@ -244,6 +244,11 @@
         padding: 0px 20px;
         box-sizing: border-box;
         overflow-y: scroll;
+        display: none;
+      }
+      /* backgrounds */
+      .sidemenubackgrounds {
+        display: block;
       }
       .sidemenubackgrounds .backgrounds {
         width: 100%;
@@ -252,6 +257,30 @@
         background-size: 100% 100%;
         background-repeat: no-repeat;
         margin-top: 10px;
+        cursor: pointer;
+      }
+      .bgselectcontainer {
+        position: sticky;
+        top: 0;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        overflow-x: scroll;
+        background-color: rgb(57, 57, 57);
+      }
+      .bgselectcontainer::-webkit-scrollbar {
+        height: 2px;
+      }
+      .bgselectcontainer div {
+        height: 100%;
+        color: white;
+        border-radius: 50px;
+        padding-inline: 10px;
+        display: grid;
+        place-content: center;
+        text-align: center;
+        white-space: nowrap;
         cursor: pointer;
       }
       /* masks */
@@ -352,9 +381,6 @@
       .gradientcolorcontainer p {
         line-height: 0;
       }
-      .fontfamilycontainer {
-        display: block;
-      }
       /* glow/shadow */
       .glowcontainer {
         width: 100%;
@@ -404,8 +430,8 @@
         border-radius: 20px;
         cursor: pointer;
       }
-      .animations:nth-of-type(1){
-        background-color: rgb(85, 85, 85);
+      .coloredoption {
+        background: rgb(85, 85, 85);
       }
       .animations:hover {
         background: rgb(85, 85, 85);
@@ -437,23 +463,23 @@
       /* addedtext */
       .addedtext {
         position: absolute;
-        height: max-content;
-        width: max-content;
+        width: 200px;
+        height: 40px;
         border: 1px dashed white;
         outline: 1px dashed black;
       }
       .textelementinput {
         background-color: transparent;
         text-align: left;
-        width: 200px;
-        height: 40px;
+        width: 100%;
+        height: 100%;
         outline: none;
         display: grid;
         place-content: center;
         color: rgb(0, 0, 0);
         caret-color: rgb(125, 125, 125);
         overflow-x: hidden;
-        font-size: 16px;
+        font-size: 10px;
       }
       .textelementinput::-webkit-scrollbar {
         height: 0;
@@ -573,18 +599,15 @@
           height: 100%;
           border-radius: 10px;
         }
-        .toolmenu {
-          display: none;
-        }
         /* toolmenumobile */
-        .mobiletoolmenu {
-          position: fixed;
-          bottom: 0;
-          left: 0;
+        .toolmenu {
+          flex-direction: row;
           height: 60px;
           width: 100vw;
+          top: unset;
+          bottom: 0;
+          overflow-x: scroll;
           background-color: var(--bg);
-          display: flex;
           align-items: center;
           gap: 20px;
           z-index: 200;
@@ -592,36 +615,55 @@
           overflow-x: scroll;
           box-sizing: border-box;
         }
-        .mobiletoolmenu::-webkit-scrollbar {
+        .toolmenu::-webkit-scrollbar {
           height: 0;
         }
-        .mobiletooloption {
+        .toolmenuInOutButton {
+          display: none;
+        }
+        /*  */
+        .tooloption {
           height: 100%;
-          aspect-ratio: 1;
+          min-height: 60px;
+          min-width: 60px;
+          border-radius: 10px;
+          cursor: pointer;
+          background-color: transparent;
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
-          box-sizing: border-box;
-          padding: 5px;
+          gap: 0;
+          color: white;
           position: relative;
         }
-        .mobiletooloption img {
-          width: 40%;
+        .tooloption:hover {
+          background-color: transparent;
         }
-        .mobiletooloption p {
-          color: white;
+        .tooloption img {
+          width: 40%;
+          height: unset;
+          aspect-ratio: 1;
+          margin-left: 0;
+          margin-top: 6px;
+        }
+        .tooloption p {
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
           line-height: 0px;
           font-size: 13px;
+          bottom: 6px;
         }
-        .mobiletooloption input {
-          position: absolute;
-          height: 100%;
-          width: 100%;
-          top: 0;
-          left: 0;
-          opacity: 0;
-          z-index: 10;
+        .tooloption .eff {
+          left: 50%;
+          top: unset;
+          bottom: 0;
+          width: 20px;
+          transform: translateX(-50%);
+          height: 3px;
+        }
+        .savebutton {
+          margin-top: unset;
         }
         /*  */
         .selectMenu {
@@ -754,10 +796,9 @@
       >
         <img src="Assets/uicomponents/photosvg.svg" alt="" />
         <p>Photo</p>
-        <input type="file" name="" id="imageselect" />
+        <input type="file" name="" accept="image/*" id="imageselect" />
         <div class="eff"></div>
       </div>
-
       <div
         class="tooloption texttool"
         onclick="togglesidemunefuctions('fontfamilycontainer','block'),leftsidemenueff(this)"
@@ -791,39 +832,20 @@
         <div class="eff"></div>
       </div>
     </div>
-    <!-- mobile toolmenu -->
-    <div class="mobiletoolmenu">
-      <div class="mobiletooloption">
-        <img src="Assets/uicomponents/photosvg.svg" alt="" />
-        <p>Photo</p>
-        <input type="file" name="" id="mobileimageselect" />
-      </div>
-      <div class="mobiletooloption">
-        <img src="Assets/uicomponents/texticonsvg.svg" alt="" />
-        <p>Text</p>
-      </div>
-      <div class="mobiletooloption">
-        <img src="Assets/uicomponents/backgroundsvg.svg" alt="" />
-        <p>Theme</p>
-      </div>
-      <div class="mobiletooloption">
-        <img src="Assets/uicomponents/masksvg.svg" alt="" />
-        <p>Masks</p>
-      </div>
-      <div class="mobiletooloption">
-        <img src="Assets/uicomponents/animation-svg.svg" alt="" />
-        <p>Animations</p>
-      </div>
-      <div class="mobiletooloption">
-        <img src="Assets/uicomponents/savesvg.svg" alt="" />
-        <p>Save</p>
-      </div>
-    </div>
     <div class="selectMenu">
       <span class="selectMenuInOutButton" onclick="togglesidemenuright(this)"
         ><img src="Assets/uicomponents/arrow.svg" alt=""
       /></span>
-      <div class="sidemenubackgrounds selectMenucomp"></div>
+      <div class="sidemenubackgrounds selectMenucomp">
+        <div class="bgselectcontainer">
+          <div onclick="selectbackgroundtype(this)">All</div>
+          <div onclick="selectbackgroundtype(this)">Birthday cards</div>
+          <div onclick="selectbackgroundtype(this)">Wedding cards</div>
+          <div onclick="selectbackgroundtype(this)">Party cards</div>
+          <div onclick="selectbackgroundtype(this)">cards</div>
+          <div onclick="selectbackgroundtype(this)">Birthday cards</div>
+        </div>
+      </div>
       <div class="imagemasks selectMenucomp">
         <div class="maksbuttonscontainer">
           <div onclick="showhidemasks(this,1)">Regular</div>
@@ -1005,7 +1027,7 @@
         </p>
       </div>
       <div class="animationscontainer selectMenucomp">
-        <div class="animations">None</div>
+        <div class="animations coloredoption">None</div>
         <div class="animations">Pop_out</div>
         <div class="animations">Pop_in</div>
         <div class="animations">Slide_left</div>
@@ -1126,25 +1148,6 @@
             item.querySelector("p").style.color = "white";
           });
           item.querySelector("p").style.color = "skyblue";
-          //
-          if (i == 0) {
-            togglesidemunefuctions("imagemasks", "block");
-          }
-          if (i == 1) {
-            togglesidemunefuctions("fontfamilycontainer", "block");
-          }
-          if (i == 2) {
-            togglesidemunefuctions("sidemenubackgrounds", "block");
-          }
-          if (i == 3) {
-            togglesidemunefuctions("imagemasks", "block");
-          }
-          if (i == 4) {
-            togglesidemunefuctions("animationscontainer", "block");
-          }
-          if (i == 5) {
-            prewiew();
-          }
         };
       });
       // responsivelayout
@@ -1164,31 +1167,59 @@
     </script>
     <!-- background -->
     <script>
-      function showContent(value) {
+      let numberofcards = {
+        all: 20,
+        wedding: 10,
+        birthday: 10,
+        party: 10,
+        others: 20,
+      };
+      function selectbackgroundtype(e) {
+        // remove previous backgrounds
+        document.querySelectorAll(".backgrounds").forEach((item) => {
+          item.remove();
+        });
+        //
+        if (e) {
+          if (e.innerHTML == "All") {
+            makecards(numberofcards.all, "background");
+          }
+          if (e.innerHTML == "Birthday cards") {
+            makecards(numberofcards.birthday, "birthday");
+          }
+          if (e.innerHTML == "Wedding cards") {
+            makecards(numberofcards.wedding, "wedding");
+          }
+          if (e.innerHTML == "Party cards") {
+            makecards(numberofcards.party, "party");
+          }
+        } else {
+          makecards(numberofcards.all, "background");
+        }
+      }
+      selectbackgroundtype();
+      // make cards
+      function makecards(type, name) {
         let sidemenubackgrounds = document.querySelector(
           ".sidemenubackgrounds"
         );
-        for (let i = 0; i < 11; i++) {
-          let element = document.createElement("div");
+        for (let i = 0; i < type; i++) {
+          let element = document.createElement("img");
           element.classList.add("backgrounds");
-          element.style.backgroundImage = `url(Assets/Backgrounds/Static/background${
-            i + 1
-          }.jpg)`;
-          //
+          element.src = "Assets/Backgrounds/Static/" + name + (i + 1) + ".jpg";
+          element.loading = "lazy";
           element.onclick = (e) => {
             document.querySelector(".preview").style.backgroundImage =
-              e.target.style.backgroundImage;
+              "url(" + e.target.src + ")";
           };
           sidemenubackgrounds.appendChild(element);
         }
       }
-      showContent();
     </script>
     <!-- select image and image effects -->
     <script>
       let selectedimage;
       let inputimg = document.querySelector("#imageselect");
-      let mobileinputimg = document.querySelector("#mobileimageselect");
       class Image {
         constructor() {
           this.canresize = false;
@@ -1205,6 +1236,12 @@
             //
             this.deletebutton.style.display = "flex";
             this.resizebutton.style.display = "flex";
+            // show masks
+            document.querySelectorAll(".selectMenucomp").forEach((item) => {
+              item.style.display = "none";
+            });
+            document.querySelector(".imagemasks").style.display = "block";
+            leftsidemenueff(document.querySelector(".imagetool"))
             //
             selectedimage = this.image;
             e.stopPropagation();
@@ -1280,23 +1317,6 @@
           reader.readAsDataURL(file);
         }
       };
-      //
-      mobileinputimg.onchange = (e) => {
-        let file = e.target.files[0];
-        if (file) {
-          let reader = new FileReader();
-          reader.onload = (e) => {
-            let newimage = new Image();
-            newimage.image.src = e.target.result;
-            //
-            previewRect.appendChild(newimage.imagecontainer);
-            addedimagearray.push(newimage);
-            //
-            selectedimage = newimage.image;
-          };
-          reader.readAsDataURL(file);
-        }
-      };
       // <---apply masks --->
       let allmasks = document.querySelectorAll(".mask");
       allmasks.forEach((mask) => {
@@ -1347,6 +1367,12 @@
             //
             selectedtext = this;
             canadd = false;
+            // show side text menu
+            document.querySelectorAll(".selectMenucomp").forEach((item) => {
+              item.style.display = "none";
+            });
+            document.querySelector(".fontfamilycontainer").style.display = "block";
+            leftsidemenueff(document.querySelector(".texttool"))
             // gradient color set
             document.querySelector("#gcolor1").value = this.gcolor1;
             document.querySelector("#gcolor2").value = this.gcolor2;
@@ -1552,12 +1578,12 @@
           }
           // text resize
           if (item.canresize) {
-            item.inputelement.style.width =
+            item.element.style.width =
               e.pageX -
               (item.element.offsetLeft + previewRect.offsetLeft) -
               20 +
               "px";
-            item.inputelement.style.height =
+            item.element.style.height =
               e.pageY -
               (item.element.offsetTop + previewRect.offsetTop) -
               20 +
@@ -1632,12 +1658,12 @@
             // text resize
             if (item.canresize) {
               e.preventDefault();
-              item.inputelement.style.width =
+              item.element.style.width =
                 e.touches[0].pageX -
                 (item.element.offsetLeft + previewRect.offsetLeft) -
                 20 +
                 "px";
-              item.inputelement.style.height =
+              item.element.style.height =
                 e.touches[0].pageY -
                 (item.element.offsetTop + previewRect.offsetTop) -
                 20 +
@@ -1893,18 +1919,18 @@
       }
     </style>
     <script>
-      let animeff="none";
+      let animeff = "none";
       document.querySelectorAll(".animations").forEach((item) => {
         item.onclick = (e) => {
           previewRect.childNodes.forEach((elem, i) => {
             elem.style.animation = "none";
           });
           // change color of button
-          document.querySelectorAll(".animations").forEach((item)=>{
-            item.style.backgroundColor="transparent"
-          })
-          item.style.backgroundColor="rgb(85, 85, 85)"
-          // 
+          document.querySelectorAll(".animations").forEach((item) => {
+            item.classList.remove("coloredoption");
+          });
+          item.classList.add("coloredoption");
+          //
           setTimeout(() => {
             previewRect.childNodes.forEach((elem, i) => {
               elem.style.animation =
@@ -1914,6 +1940,125 @@
           }, 1);
         };
       });
+    </script>
+    <!-- receive data -->
+    <script>
+      let link = new URL(location.href);
+      if (link.searchParams.get("id")) {
+        fetch("/previewdata?id=:" + link.searchParams.get("id"))
+          .then((res) => res.json())
+          .then((data) => {
+            previewRect.style.backgroundImage =
+              data[0].cardbackground == ""
+                ? "url(./Assets/Backgrounds/Static/background1.jpg)"
+                : data[0].cardbackground;
+            animeff = data[0].animation;
+            // setimage
+            data[0].images.forEach((item) => {
+              let newimage = new Image();
+              newimage.image.src = item.image;
+              newimage.imagecontainer.style.width =
+                "calc(" + (item.width / data[0].cardwidth) * 100 + "% + 4px)";
+              newimage.imagecontainer.style.height =
+                "calc(" + (item.height / data[0].cardheight) * 100 + "% + 4px)";
+              newimage.imagecontainer.style.left =
+                (item.left / data[0].cardwidth) * 100 + "%";
+              newimage.imagecontainer.style.top =
+                (item.top / data[0].cardheight) * 100 + "%";
+              newimage.image.style.maskImage = item.mask;
+              newimage.image.style.webkitMaskImage = item.mask;
+              previewRect.appendChild(newimage.imagecontainer);
+              addedimagearray.push(newimage);
+            });
+            // settext
+            data[0].texts.forEach((item) => {
+              let textelement = new text();
+              textelement.inputelement.innerText = item.innertext;
+              textelement.element.style.width =
+                (item.width / data[0].cardwidth) * 100 + "%";
+              textelement.element.style.height =
+                (item.height / data[0].cardheight) * 100 + "%";
+              textelement.element.style.left =
+                (item.left / data[0].cardwidth) * 100 + "%";
+              textelement.element.style.top =
+                (item.top / data[0].cardheight) * 100 + "%";
+              // gradient colors
+              if (item.color == "transparent") {
+                textelement.inputelement.style.backgroundImage =
+                  " linear-gradient(" +
+                  item.gangle +
+                  "deg," +
+                  item.gcolor1 +
+                  "," +
+                  item.gcolor2 +
+                  ")";
+                textelement.inputelement.style.color = "transparent";
+                textelement.inputelement.style.backgroundClip = "text";
+                textelement.inputelement.style.webkitBackgroundClip = "text";
+              } else {
+                textelement.inputelement.style.color =
+                  item.color == "" ? "black" : item.color;
+              }
+              //
+              textelement.inputelement.style.fontFamily =
+                item.fontFamily == "" ? "Calibri" : item.fontFamily;
+              textelement.inputelement.style.fontStyle =
+                item.fontStyle == "" ? "normal" : item.fontStyle;
+              textelement.inputelement.style.fontWeight =
+                item.fontWeight == "" ? "400" : item.fontWeight;
+              textelement.inputelement.style.textAlign =
+                item.textAlign == "" ? "left" : item.textAlign;
+              // glow
+              if (item.glowvalues.value == 0) {
+                textelement.inputelement.style.textShadow = "none";
+              } else {
+                textelement.inputelement.style.textShadow =
+                  "0 0 " +
+                  item.glowvalues.value * 3 * 1 +
+                  "px " +
+                  item.glowvalues.color +
+                  " ,0 0 " +
+                  item.glowvalues.value * 3 * 1.5 +
+                  "px " +
+                  item.glowvalues.color +
+                  " , 0 0 " +
+                  item.glowvalues.value * 3 * 2 +
+                  "px " +
+                  item.glowvalues.color;
+              }
+              // set values
+              textelement.gcolor1 = item.gcolor1;
+              textelement.gcolor2 = item.gcolor2;
+              textelement.gangle = item.gangle;
+              textelement.glow = {
+                color: item.glowvalues.color,
+                value: item.glowvalues.value,
+              };
+              previewRect.appendChild(textelement.element);
+              addedtextarray.push(textelement);
+            });
+            fontresize();
+            //
+            setTimeout(() => {
+              document.querySelector(".loading").style.display = "none";
+              // animation effects
+              previewRect.childNodes.forEach((elem, i) => {
+                elem.style.animation =
+                  data[0].animation + " 0.5s " + i * 0.1 + "s forwards";
+              });
+            }, 2500);
+          })
+          .catch((err) => {
+            document.querySelector(".loading").style.display = "none";
+            showalertbox("Unable to preview");
+          });
+        // font resize
+        function fontresize() {
+          document.querySelectorAll(".textelementinput").forEach((item) => {
+            item.style.fontSize = item.offsetHeight / 4 + "px";
+          });
+        }
+      }
     </script>
     <!-- preview and data share script -->
     <script>

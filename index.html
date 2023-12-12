@@ -516,11 +516,15 @@
         transform: translateX(-785px);
         filter: brightness(0.6);
       }
-      .headingcards::before{
+      .headingcards::before {
         position: absolute;
         content: "";
         inset: 0;
-        background-image: linear-gradient(90deg,rgba(0, 0, 0, 0.486),transparent);
+        background-image: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.486),
+          transparent
+        );
         border-radius: inherit;
         z-index: 0;
       }
@@ -529,8 +533,9 @@
         filter: brightness(1);
         font-size: 25px;
       }
-      .highlightstext{
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      .highlightstext {
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
         position: absolute;
         z-index: 10;
         top: 50%;
@@ -637,15 +642,33 @@
       <div class="specialright" onclick="highlightsmove('right')"></div>
       <button class="right" onclick="highlightsmove('right')"></button>
       <div class="highlightscrollingscontainer">
-        <div class="headingcards"><div class="highlightstext">3. Life was fun when we were kids...</div></div>
-        <div class="headingcards"><div class="highlightstext">4. Life was fun when we were kids...</div></div>
-        <div class="headingcards"><div class="highlightstext">1. Life was fun when we were kids...</div></div>
-        <div class="headingcards"><div class="highlightstext">2. Life was fun when we were kids...</div></div>
-        <div class="headingcards"><div class="highlightstext">3. Life was fun when we were kids...</div></div>
-        <div class="headingcards"><div class="highlightstext">4. Life was fun when we were kids...</div></div>
-        <div class="headingcards"><div class="highlightstext">1. Life was fun when we were kids...</div></div>
-        <div class="headingcards"><div class="highlightstext">2. Life was fun when we were kids...</div></div>
-        <div class="headingcards"><div class="highlightstext">3. Life was fun when we were kids...</div></div>
+        <div class="headingcards">
+          <div class="highlightstext">3. Life was fun when we were kids...</div>
+        </div>
+        <div class="headingcards">
+          <div class="highlightstext">4. Life was fun when we were kids...</div>
+        </div>
+        <div class="headingcards">
+          <div class="highlightstext">1. Life was fun when we were kids...</div>
+        </div>
+        <div class="headingcards">
+          <div class="highlightstext">2. Life was fun when we were kids...</div>
+        </div>
+        <div class="headingcards">
+          <div class="highlightstext">3. Life was fun when we were kids...</div>
+        </div>
+        <div class="headingcards">
+          <div class="highlightstext">4. Life was fun when we were kids...</div>
+        </div>
+        <div class="headingcards">
+          <div class="highlightstext">1. Life was fun when we were kids...</div>
+        </div>
+        <div class="headingcards">
+          <div class="highlightstext">2. Life was fun when we were kids...</div>
+        </div>
+        <div class="headingcards">
+          <div class="highlightstext">3. Life was fun when we were kids...</div>
+        </div>
       </div>
       <div class="dottscontainer"></div>
     </div>
@@ -780,11 +803,11 @@
         highlightcards.forEach((item, i) => {
           item.style.aspectRatio = "1";
           item.style.filter = "brightness(0.6)";
-          item.style.fontSize="20px"
+          item.style.fontSize = "20px";
           if (i == highlightsscrollvalue + 2) {
             item.style.aspectRatio = "7/4";
             item.style.filter = "brightness(1)";
-            item.style.fontSize="25px"
+            item.style.fontSize = "25px";
           }
         });
       }
@@ -796,41 +819,37 @@
       }
       sethighlightscrolltimer();
     </script>
+    <!--  -->
     <div class="cardcontainer">
       <div class="cardcontainertitle">Wedding cards</div>
       <div class="cardsscrollcontainer">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
+        <a href="./editer.html?id=6577e34927ebde3cd9db6a99">
+          <div class="card"></div>
+        </a>
+        <a href="./editer.html?id=6577e34927ebde3cd9db6a99">
+          <div class="card"></div>
+        </a>
+        <a href="./editer.html?id=6577e34927ebde3cd9db6a99">
+          <div class="card"></div>
+        </a>
+        <a href="./editer.html?id=6577e34927ebde3cd9db6a99">
+          <div class="card"></div>
+        </a>
+        <a href="./editer.html?id=6577e34927ebde3cd9db6a99">
+          <div class="card"></div>
+        </a>
+        <a href="./editer.html?id=6577e34927ebde3cd9db6a99">
+          <div class="card"></div>
+        </a>
       </div>
     </div>
     <div class="cardcontainer">
       <div class="cardcontainertitle">Wedding cards</div>
-      <div class="cardsscrollcontainer">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-      </div>
+      <div class="cardsscrollcontainer"></div>
     </div>
     <div class="cardcontainer">
       <div class="cardcontainertitle">Wedding cards</div>
-      <div class="cardsscrollcontainer">
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-      </div>
+      <div class="cardsscrollcontainer"></div>
     </div>
     <!-- login form -->
     <div class="formpage">
