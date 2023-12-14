@@ -237,7 +237,8 @@
       .sidemenubackgrounds,
       .imagemasks,
       .fontfamilycontainer,
-      .animationscontainer {
+      .animationscontainer,
+      .effectscontainer {
         position: relative;
         height: 100%;
         width: 100%;
@@ -436,8 +437,21 @@
       .animations:hover {
         background: rgb(85, 85, 85);
       }
+      /* efects */
+      .seffects {
+        color: white;
+        margin-top: 20px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+      .seffects:hover {
+        background: rgb(85, 85, 85);
+      }
       /* specialcomponents */
-
       /* seelected image */
       .selectedimagecontainer {
         position: absolute;
@@ -775,6 +789,7 @@
         <div class="profile"></div>
       </div>
     </nav>
+    <div class="effectscreenview"></div>
     <main>
       <div class="preview"></div>
     </main>
@@ -821,6 +836,14 @@
       >
         <img src="Assets/uicomponents/animation-svg.svg" alt="" />
         <p>Animations</p>
+        <div class="eff"></div>
+      </div>
+      <div
+        class="tooloption"
+        onclick="togglesidemunefuctions('effectscontainer','block'),leftsidemenueff(this)"
+      >
+        <img src="Assets/uicomponents/screeneff_svg.svg" alt="" />
+        <p>Effects</p>
         <div class="eff"></div>
       </div>
       <div
@@ -1036,6 +1059,14 @@
         <div class="animations">Slide_bottom</div>
         <div class="animations">Fade_out</div>
       </div>
+      <div class="effectscontainer selectMenucomp">
+        <div class="seffects coloredoption">None</div>
+        <div class="seffects">Snow 1</div>
+        <div class="seffects">Balloons</div>
+        <div class="seffects">Blinking stars</div>
+        <div class="seffects">Bubbles</div>
+        <div class="seffects">Sakura</div>
+      </div>
     </div>
     <!-- ui -->
     <script>
@@ -1241,7 +1272,7 @@
               item.style.display = "none";
             });
             document.querySelector(".imagemasks").style.display = "block";
-            leftsidemenueff(document.querySelector(".imagetool"))
+            leftsidemenueff(document.querySelector(".imagetool"));
             //
             selectedimage = this.image;
             e.stopPropagation();
@@ -1371,8 +1402,9 @@
             document.querySelectorAll(".selectMenucomp").forEach((item) => {
               item.style.display = "none";
             });
-            document.querySelector(".fontfamilycontainer").style.display = "block";
-            leftsidemenueff(document.querySelector(".texttool"))
+            document.querySelector(".fontfamilycontainer").style.display =
+              "block";
+            leftsidemenueff(document.querySelector(".texttool"));
             // gradient color set
             document.querySelector("#gcolor1").value = this.gcolor1;
             document.querySelector("#gcolor2").value = this.gcolor2;
@@ -1941,6 +1973,259 @@
         };
       });
     </script>
+    <!-- screen effects -->
+    <style>
+      .effectscreenview {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        pointer-events: none;
+        z-index: 60;
+        overflow: hidden;
+      }
+      /* snow1 */
+      .snowflake {
+        position: absolute;
+        height: 20px;
+        aspect-ratio: 1;
+        background-image: radial-gradient(white 0 10%, transparent 60% 100%);
+        border-radius: 50%;
+      }
+      @keyframes fall1 {
+        0% {
+          transform: translateY(-10vh);
+        }
+        100% {
+          transform: translateY(100vh);
+        }
+      }
+      @keyframes fall2 {
+        0% {
+          transform: translateY(-10vh);
+        }
+        100% {
+          transform: translateY(100vh) translateX(300px);
+        }
+      }
+      @keyframes fall3 {
+        0% {
+          transform: translateY(-10vh);
+        }
+        100% {
+          transform: translateY(100vh) translateX(-100px);
+        }
+      }
+      @keyframes fall4 {
+        0% {
+          transform: translateY(-10vh);
+        }
+        100% {
+          transform: translateY(100vh) translateX(100px);
+        }
+      }
+      @keyframes fall5 {
+        0% {
+          transform: translateY(-10vh);
+        }
+        100% {
+          transform: translateY(100vh) translateX(200px);
+        }
+      }
+      /* balloons */
+      .balloon {
+        position: absolute;
+        width: 50px;
+        aspect-ratio: 3/5;
+        background-image: url("Assets/screenoverlays/balloons.gif");
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+      /* stars */
+      .stars {
+        position: absolute;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background-image: url(Assets/screenoverlays/starpng.png);
+        background-size: contain;
+        background-position: center;
+        animation: shine 0.6s infinite alternate ease-in-out;
+      }
+      @keyframes shine {
+        0% {
+          transform: scale(0);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      /* bubbles1 */
+      .bubble {
+        position: absolute;
+        aspect-ratio: 1;
+        background-image: url(Assets/screenoverlays/bubble.png);
+        background-size: contain;
+        background-position: center;
+      }
+      @keyframes moveup {
+        0% {
+          transform: translateY(120vh);
+        }
+        100% {
+          transform: scale(-20vh);
+        }
+      }
+      /* sakura1 */
+      .sakuracontainer {
+        height: 50px;
+        aspect-ratio: 1;
+        position: absolute;
+      }
+      .sakura {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-image: url(Assets/screenoverlays/sakura1.png);
+        background-position: center;
+        background-size: contain;
+        animation: skew1 2s ease-in-out alternate infinite;
+        transform-origin: 50% 0%;
+      }
+      @keyframes skew1 {
+        0% {
+          transform: rotateX(70deg) rotateY(0deg) rotateZ(0deg);
+        }
+        100% {
+          transform: rotateX(-70deg) rotateY(0deg) rotateZ(-115deg);
+        }
+      }
+    </style>
+    <script>
+      let timer;
+      let timeout;
+      let seffectnumber = 0;
+      let seffects = document.querySelectorAll(".seffects");
+      seffects.forEach((effect, i) => {
+        effect.onclick = (e) => {
+          seffectnumber = i;
+          // change color of button
+          document.querySelectorAll(".seffects").forEach((item) => {
+            item.classList.remove("coloredoption");
+          });
+          effect.classList.add("coloredoption");
+          //
+          document.querySelector(".effectscreenview").innerHTML = "";
+          //
+          clearInterval(timer);
+          clearTimeout(timeout);
+          // creating loop
+          // snow
+          if (i == 1) {
+            let numberOfelements = 100;
+            timer = setInterval(() => {
+              seffectcreatorfunction(i);
+            }, (15 / numberOfelements) * 1000);
+            timeout = setTimeout(() => {
+              clearTimeout(timer);
+            }, 15000);
+          }
+          // balloon || bubbles
+          if (i == 2 || i == 4) {
+            let numberOfelements = 10;
+            timer = setInterval(() => {
+              seffectcreatorfunction(i);
+            }, (15 / numberOfelements) * 1000);
+            timeout = setTimeout(() => {
+              clearTimeout(timer);
+            }, 15000);
+          }
+          // star
+          if (i == 3) {
+            let numberOfelements;
+            if (window.innerWidth < 450) {
+              numberOfelements = 50;
+            } else {
+              numberOfelements = 100;
+            }
+            timer = setInterval(() => {
+              seffectcreatorfunction(i);
+            }, (15 / numberOfelements) * 1000);
+            timeout = setTimeout(() => {
+              clearTimeout(timer);
+            }, 15000);
+          }
+          // sakura
+          if (i == 5) {
+            let numberOfelements;
+            numberOfelements = 50;
+            timer = setInterval(() => {
+              seffectcreatorfunction(i);
+            }, (15 / numberOfelements) * 1000);
+            timeout = setTimeout(() => {
+              clearTimeout(timer);
+            }, 15000);
+          }
+        };
+      });
+
+      // seffect creator fucntion
+      function seffectcreatorfunction(value) {
+        const element = document.createElement("div");
+        if (value == 1) {
+          element.className = "snowflake";
+          const startLeft = Math.random() * window.innerWidth;
+          const startAnimationDuration = Math.random() * 5 + 5;
+          element.style.animation =
+            "fall" +
+            Math.floor(Math.random() * 4 + 1) +
+            " " +
+            startAnimationDuration +
+            "s linear infinite";
+          element.style.opacity = Math.random();
+          element.style.height = Math.random() * 15 + 5 + "px";
+          element.style.left = `${startLeft}px`;
+        }
+        // balloons
+        if (value == 2) {
+          element.className = "balloon";
+          element.style.width = Math.random() * 100 + 50 + "px";
+          element.style.left = Math.random() * (window.innerWidth - 100) + "px";
+          element.style.animation =
+            "moveup " + (Math.random() * 4 + 4) + "s infinite ease-in";
+          element.style.filter = "hue-rotate(" + Math.random() * 360 + "deg)";
+        }
+        if (value == 3) {
+          element.className = "stars";
+          element.style.height = Math.random() * 60 + 20 + "px";
+          element.style.left = Math.random() * window.innerWidth + "px";
+          element.style.top = Math.random() * window.innerHeight + "px";
+        }
+        if (value == 4) {
+          element.className = "bubble";
+          element.style.height = Math.random() * 100 + 50 + "px";
+          element.style.left = Math.random() * (window.innerWidth - 100) + "px";
+          element.style.animation =
+            "moveup " + (Math.random() * 4 + 3) + "s infinite ease-in";
+        }
+        if (value == 5) {
+          element.className = "sakuracontainer";
+          element.innerHTML = " <div class='sakura'></div>";
+          element.style.animation =
+            "fall" +
+            Math.floor(Math.random() * 4 + 1) +
+            " " +
+            (Math.random() * 5 + 7) +
+            "s ease-in-out infinite";
+          element.style.opacity = Math.random()*0.7+0.3;
+          element.style.height = Math.random() * 15 + 10 + "px";
+          element.style.left = Math.random() * window.innerWidth+"px";
+        }
+        //
+        document.querySelector(".effectscreenview").appendChild(element);
+      }
+    </script>
     <!-- receive data -->
     <script>
       let link = new URL(location.href);
@@ -2070,6 +2355,7 @@
           texts: [],
           images: [],
           animation: animeff,
+          seffectnumber: seffectnumber,
         };
         // text data
         addedtextarray.forEach((item) => {
