@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta name="title" content="Your Page Title" />
+    <meta name="description" content="Your Page Description" />
+    <meta name="image" content="./Assets/Backgrounds/Static/background1.jpg" />
+    <!--  -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Online invitation</title>
@@ -777,7 +781,7 @@
         // balloons
         if (value == 2) {
           element.className = "balloon";
-          element.style.width = Math.random() * 100 + 50 + "px";
+          element.style.width = Math.random() * 50 + 40 + "px";
           element.style.left = Math.random() * (window.innerWidth - 100) + "px";
           element.style.animation =
             "moveup " + (Math.random() * 4 + 4) + "s infinite ease-in";
@@ -791,10 +795,10 @@
         }
         if (value == 4) {
           element.className = "bubble";
-          element.style.height = Math.random() * 100 + 50 + "px";
+          element.style.height = Math.random() * 50 + 30 + "px";
           element.style.left = Math.random() * (window.innerWidth - 100) + "px";
           element.style.animation =
-            "moveup " + (Math.random() * 4 + 3) + "s infinite ease-in";
+            "moveup " + (Math.random() * 5 + 4) + "s infinite ease-in";
         }
         if (value == 5) {
           element.className = "sakuracontainer";
