@@ -30,8 +30,8 @@
         .addEventListener("click", function () {
           // Use html2canvas with custom options
           html2canvas(document.getElementById("myDiv"), {
-            width: 180,
-            height: 300,
+            width: 240,
+            height: 400,
           }).then(function (canvas) {
             var imageData = canvas.toDataURL("image/jpeg");
             var link = document.createElement("img");

@@ -11,6 +11,9 @@
       rel="stylesheet"
     />
     <style>
+      * {
+        -webkit-tap-highlight-color: transparent;
+      }
       body {
         margin: 0;
         --white: white;
@@ -29,6 +32,86 @@
         border-radius: 20px;
         background-color: rgb(0, 157, 255);
       }
+      /* input range */
+      input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        height: 20px;
+        border-radius: 5px;
+        background-color: transparent;
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        height: 20px;
+        aspect-ratio: 1;
+        background: var(--theme);
+        border-radius: 50%;
+        cursor: pointer;
+        transform: translateY(calc(-50% + 1px));
+      }
+      input[type="range"]::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 2px;
+        background-color: white;
+      }
+      /* saveas */
+      .saveasscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: none;
+        place-content: center;
+        height: 100vh;
+        width: 100vw;
+        z-index: 200;
+        backdrop-filter: blur(10px);
+      }
+      .saveascontainer {
+        width: 250px;
+        aspect-ratio: 5/4;
+        background-color: rgba(255, 255, 255, 0.15);
+        border: 1.5px solid rgb(117, 117, 117);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 10px;
+      }
+      .saveascontainer p {
+        color: white;
+        font-size: 25px;
+      }
+      .saveascontainer input {
+        background-color: transparent;
+        border-radius: 100px;
+        height: 30px;
+        width: 80%;
+        color: white;
+        outline: none;
+        text-indent: 20px;
+      }
+      .buttonscontainer {
+        width: 100%;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 20px;
+      }
+      .buttonscontainer button {
+        background-color: white;
+        border: none;
+        height: 100%;
+        width: 70px;
+        border-radius: 100px;
+        cursor: pointer;
+      }
+      .buttonscontainer .save:hover {
+        background-color: rgb(0, 216, 0);
+        color: white;
+      }
+      /*  */
       nav {
         position: fixed;
         top: 0;
@@ -185,16 +268,6 @@
       .tooloption:nth-of-type(1) .eff {
         display: block;
       }
-      .imagetool input {
-        cursor: pointer;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 10;
-        height: 100%;
-        width: 100%;
-        opacity: 0;
-      }
       .savebutton {
         margin-top: auto;
         display: flex;
@@ -235,6 +308,7 @@
       }
       /*  */
       .sidemenubackgrounds,
+      .imagesettings,
       .imagemasks,
       .fontfamilycontainer,
       .animationscontainer,
@@ -283,6 +357,88 @@
         text-align: center;
         white-space: nowrap;
         cursor: pointer;
+      }
+      /* Image */
+      .imagesettings {
+        overflow-x: hidden;
+        color: white;
+      }
+      .selectnewimage,
+      .replaceimage {
+        background-color: rgb(66, 66, 66);
+        width: 100%;
+        height: 40px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50px;
+        margin-top: 10px;
+      }
+      .selectnewimage input,
+      .replaceimage input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+        opacity: 0;
+        z-index: 1;
+      }
+      /*  */
+      .imagesettingtitle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 40px;
+      }
+      .imagesettingtitle button {
+        height: 70%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: url(Assets/uicomponents/rotate-ccw-svg.svg) center / cover;
+        cursor: pointer;
+      }
+      .moreoptionscontainer {
+        height: 50px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+      }
+      .moreoptions {
+        height: 35px;
+        aspect-ratio: 1;
+        background-color: rgb(66, 66, 66);
+        border-radius: 5px;
+        cursor: pointer;
+        background-size: 80% 80%;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      .moreoptions:nth-of-type(1) {
+        background-image: url(Assets/uicomponents/arrow-invert.svg);
+        transform: rotateZ(90deg);
+      }
+      .moreoptions:nth-of-type(2) {
+        background-image: url(Assets/uicomponents/arrow-invert.svg);
+      }
+      /*  */
+      .effectsinnercontainer {
+        width: 100%;
+        height: 80px;
+        display: flex;
+        flex-direction: column;
+        margin-top: 2px;
+        position: relative;
+      }
+      .effectsinnercontainer div {
+        color: var(--theme);
+        position: absolute;
+        right: 0;
+        top: 15px;
       }
       /* masks */
       .maksbuttonscontainer {
@@ -473,6 +629,8 @@
         -webkit-mask-repeat: no-repeat;
         font-style: normal;
         cursor: all-scroll;
+        filter: brightness(1) contrast(1) grayscale(0) hue-rotate(0deg)
+          invert(0) saturate(1) sepia(0);
       }
       /* addedtext */
       .addedtext {
@@ -604,6 +762,10 @@
           min-height: 100dvh;
           overflow: hidden;
         }
+        ::-webkit-scrollbar {
+          background-color: transparent;
+          width: 0px;
+        }
         main {
           height: calc(100dvh - 120px);
         }
@@ -627,6 +789,7 @@
           z-index: 200;
           padding-inline: 20px;
           overflow-x: scroll;
+          overflow-y: hidden;
           box-sizing: border-box;
         }
         .toolmenu::-webkit-scrollbar {
@@ -681,9 +844,10 @@
         }
         /*  */
         .selectMenu {
+          border-radius: 10px;
           height: calc(100dvh - 120px);
           padding-bottom: 10px;
-          width: 200px;
+          width: 30%;
         }
         .selectMenuInOutButton {
           left: -50px;
@@ -694,6 +858,25 @@
           box-sizing: border-box;
           clip-path: unset;
           border: 1px solid white;
+        }
+        /*  */
+        .sidemenubackgrounds,
+        .imagesettings,
+        .imagemasks,
+        .fontfamilycontainer,
+        .animationscontainer,
+        .effectscontainer {
+          padding: 0px 3px;
+        }
+        .gradientcolorcontainer,
+        .glowcontainer {
+          border-radius: 10px;
+        }
+        .gradientcolorcontainer input[type="range"] {
+          width: 90%;
+        }
+        .glowcontainer input[type="range"] {
+          width: 90%;
         }
       }
     </style>
@@ -709,7 +892,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        top: 10px;
+        top: 50px;
         left: 50%;
         transform: translateX(-50%);
         z-index: 500;
@@ -761,10 +944,10 @@
       }
       @keyframes alertshow {
         0% {
-          top: 0;
+          transform: translateX(-50%) translateY(0px);
         }
         100% {
-          top: 10px;
+          transform: translateX(-50%) translateY(20px);
         }
       }
     </style>
@@ -774,12 +957,25 @@
       <div></div>
       <span>Saving...</span>
     </div>
+    <!--  -->
     <div class="alert">
       <img src="Assets/uicomponents/alert1.svg" alt="" />
       <div class="message"></div>
       <button onclick="hidealert()">X</button>
       <div class="loadingline"></div>
     </div>
+    <!--  -->
+    <div class="saveasscreen">
+      <div class="saveascontainer">
+        <p>Save as</p>
+        <input type="text" name="" id="projectname"  />
+        <div class="buttonscontainer">
+          <button class="save" onclick="prewiew()">Save</button>
+          <button class="cancel" onclick="hidesaveas()">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <!--  -->
     <nav>
       <div class="leftnav">
         <img class="menubutton" src="Assets/uicomponents/menu.svg" alt="" />
@@ -807,11 +1003,10 @@
       </div>
       <div
         class="tooloption imagetool"
-        onclick="togglesidemunefuctions('imagemasks','block'),leftsidemenueff(this)"
+        onclick="togglesidemunefuctions('imagesettings','block'),leftsidemenueff(this)"
       >
         <img src="Assets/uicomponents/photosvg.svg" alt="" />
         <p>Photo</p>
-        <input type="file" name="" accept="image/*" id="imageselect" />
         <div class="eff"></div>
       </div>
       <div
@@ -848,7 +1043,7 @@
       </div>
       <div
         class="tooloption savebutton"
-        onclick="prewiew(),leftsidemenueff(this)"
+        onclick="showsaveas(),leftsidemenueff(this)"
       >
         <img src="Assets/uicomponents/savesvg.svg" alt="" />
         <p>Save</p>
@@ -867,6 +1062,81 @@
           <div onclick="selectbackgroundtype(this)">Party cards</div>
           <div onclick="selectbackgroundtype(this)">cards</div>
           <div onclick="selectbackgroundtype(this)">Birthday cards</div>
+        </div>
+      </div>
+      <div class="imagesettings selectMenucomp">
+        <div class="selectnewimage">
+          <input type="file" name="" accept="image/*" id="imageselect" />
+          <p>Select Image</p>
+        </div>
+        <div class="replaceimage">
+          <input type="file" name="" accept="image/*" id="replaceimage" />
+          <p>Replace Image</p>
+        </div>
+        <hr />
+        <div class="moreoptionscontainer">
+          <div class="moreoptions invertup" onclick="invertimage('side')"></div>
+          <div class="moreoptions invertside" onclick="invertimage('up')"></div>
+        </div>
+        <hr />
+        <div class="imagesettingtitle">
+          <h2>Adjust</h2>
+          <button
+            onclick="setimageeffects(false),setimageeffectvaluesback(false)"
+          ></button>
+        </div>
+        <div class="effectsinnercontainer">
+          <p>Brightness</p>
+          <div class="imagebrightnessshow">100</div>
+          <input
+            type="range"
+            id="imagebrightness"
+            min="0"
+            max="200"
+            value="100"
+          />
+        </div>
+        <div class="effectsinnercontainer">
+          <p>Saturation</p>
+          <div class="imagesaturationshow">100</div>
+          <input
+            type="range"
+            id="imagesaturation"
+            min="0"
+            max="200"
+            value="100"
+          />
+        </div>
+        <div class="effectsinnercontainer">
+          <p>Contrast</p>
+          <div class="imagecontrastshow">100</div>
+          <input
+            type="range"
+            id="imagecontrast"
+            min="0"
+            max="200"
+            value="100"
+          />
+        </div>
+        <div class="effectsinnercontainer">
+          <p>Grayscale</p>
+          <div class="imagegrayscaleshow">0</div>
+          <input type="range" id="imagegrayscale" min="0" max="100" value="0" />
+        </div>
+        <div class="effectsinnercontainer">
+          <p>Hue-rotate</p>
+          <div class="imagehuerotateshow">0°</div>
+          <input type="range" id="imagehuerotate" min="0" max="360" value="0" />
+        </div>
+        <div class="effectsinnercontainer">
+          <p>Invert</p>
+          <div class="imageinvertshow">0</div>
+          <input type="range" id="imageinvert" min="0" max="100" value="0" />
+        </div>
+        <div class="effectsinnercontainer">
+          <p>Sepia</p>
+          <div class="imagesepiashow">0</div>
+          <input type="range" id="imagesepia" min="0" max="100" value="0" />
         </div>
       </div>
       <div class="imagemasks selectMenucomp">
@@ -1171,16 +1441,6 @@
           });
         button.style.backgroundColor = "rgb(70, 70, 70)";
       }
-      // mobile toolmenu
-      let mobiletooloptions = document.querySelectorAll(".mobiletooloption");
-      mobiletooloptions.forEach((item, i) => {
-        item.onclick = (e) => {
-          mobiletooloptions.forEach((item, i) => {
-            item.querySelector("p").style.color = "white";
-          });
-          item.querySelector("p").style.color = "skyblue";
-        };
-      });
       // responsivelayout
       if (window.innerWidth <= 450) {
         flags.rightSideMenuFlag = true;
@@ -1189,9 +1449,6 @@
       // resize
       window.onresize = () => {
         if (window.innerWidth <= 450) {
-          flags.rightSideMenuFlag = true;
-          togglesidemenuright(document.querySelector(".selectMenuInOutButton"));
-          //
           document.querySelector(".toolmenu").style.transform = "translate(0)";
         }
       };
@@ -1256,6 +1513,17 @@
           this.canresize = false;
           this.canmove = false;
           this.removed = false;
+          this.imagevalues = {
+            invertup: 0,
+            invertside: 0,
+            brightness: 100,
+            saturation: 100,
+            contrast: 100,
+            grayscale: 0,
+            hue_rotate: 0,
+            invert: 0,
+            sepia: 0,
+          };
           //
           this.imagecontainer = document.createElement("div");
           this.imagecontainer.classList.add("selectedimagecontainer");
@@ -1271,13 +1539,15 @@
             document.querySelectorAll(".selectMenucomp").forEach((item) => {
               item.style.display = "none";
             });
-            document.querySelector(".imagemasks").style.display = "block";
+            document.querySelector(".imagesettings").style.display = "block";
             leftsidemenueff(document.querySelector(".imagetool"));
             //
-            selectedimage = this.image;
+            selectedimage = this;
+            // set values back
+            setimageeffectvaluesback(true);
+            //
             e.stopPropagation();
           };
-
           //
           this.image = document.createElement("img");
           this.image.classList.add("selectedImage");
@@ -1343,22 +1613,214 @@
             previewRect.appendChild(newimage.imagecontainer);
             addedimagearray.push(newimage);
             //
-            selectedimage = newimage.image;
+            selectedimage = newimage;
           };
           reader.readAsDataURL(file);
         }
       };
+      // replace image
+      document.querySelector("#replaceimage").onchange = (e) => {
+        if (!checkselectimage()) {
+          showalertbox("Please select an image first");
+          return;
+        }
+        let file = e.target.files[0];
+        if (file && selectedimage) {
+          let reader = new FileReader();
+          reader.onload = (e) => {
+            selectedimage.image.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+      //invert images
+      function invertimage(value) {
+        if (!checkselectimage()) {
+          return;
+        }
+        if (value == "up") {
+          if (selectedimage.imagevalues.invertup == 0) {
+            selectedimage.imagevalues.invertup = 180;
+          } else {
+            selectedimage.imagevalues.invertup = 0;
+          }
+        }
+        //
+        if (value == "side") {
+          if (selectedimage.imagevalues.invertside == 0) {
+            selectedimage.imagevalues.invertside = 180;
+          } else {
+            selectedimage.imagevalues.invertside = 0;
+          }
+        }
+        //
+        selectedimage.image.style.transform =
+          "rotateX(" +
+          selectedimage.imagevalues.invertup +
+          "deg) rotateY(" +
+          selectedimage.imagevalues.invertside +
+          "deg)";
+      }
+
+      // apply image effects
+      function checkselectimage() {
+        if (selectedimage) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+      // brightness
+      document.querySelector("#imagebrightness").oninput = (e) => {
+        document.querySelector(".imagebrightnessshow").innerHTML =
+          e.target.value;
+        if (!checkselectimage()) {
+          return;
+        }
+        selectedimage.imagevalues.brightness = e.target.value;
+        setimageeffects(true);
+      };
+      // saturation
+      document.querySelector("#imagesaturation").oninput = (e) => {
+        document.querySelector(".imagesaturationshow").innerHTML =
+          e.target.value;
+        if (!checkselectimage()) {
+          return;
+        }
+        selectedimage.imagevalues.saturation = e.target.value;
+        setimageeffects(true);
+      };
+      // contrast
+      document.querySelector("#imagecontrast").oninput = (e) => {
+        document.querySelector(".imagecontrastshow").innerHTML = e.target.value;
+        if (!checkselectimage()) {
+          return;
+        }
+        selectedimage.imagevalues.contrast = e.target.value;
+        setimageeffects(true);
+      };
+      // grayscale
+      document.querySelector("#imagegrayscale").oninput = (e) => {
+        document.querySelector(".imagegrayscaleshow").innerHTML =
+          e.target.value;
+        if (!checkselectimage()) {
+          return;
+        }
+        selectedimage.imagevalues.grayscale = e.target.value;
+        setimageeffects(true);
+      };
+      // imagehuerotate
+      document.querySelector("#imagehuerotate").oninput = (e) => {
+        document.querySelector(".imagehuerotateshow").innerHTML =
+          e.target.value + "°";
+        if (!checkselectimage()) {
+          return;
+        }
+        selectedimage.imagevalues.hue_rotate = e.target.value;
+        setimageeffects(true);
+      };
+      // imageinvert
+      document.querySelector("#imageinvert").oninput = (e) => {
+        document.querySelector(".imageinvertshow").innerHTML = e.target.value;
+        if (!checkselectimage()) {
+          return;
+        }
+        selectedimage.imagevalues.invert = e.target.value;
+        setimageeffects(true);
+      };
+      // imagesepia
+      document.querySelector("#imagesepia").oninput = (e) => {
+        document.querySelector(".imagesepiashow").innerHTML = e.target.value;
+        if (!checkselectimage()) {
+          return;
+        }
+        selectedimage.imagevalues.sepia = e.target.value;
+        setimageeffects(true);
+      };
+      // fucntion to set image values
+      function setimageeffects(i) {
+        if (!checkselectimage()) {
+          return;
+        }
+        // to reset values
+        if (i == false) {
+          selectedimage.imagevalues = {
+            brightness: 100,
+            saturation: 100,
+            contrast: 100,
+            grayscale: 0,
+            hue_rotate: 0,
+            invert: 0,
+            sepia: 0,
+          };
+        }
+        //
+        selectedimage.image.style.filter = ` brightness(${
+          selectedimage.imagevalues.brightness / 100
+        }) 
+          saturate(${selectedimage.imagevalues.saturation / 100}) 
+          contrast(${selectedimage.imagevalues.contrast / 100}) 
+          grayscale(${selectedimage.imagevalues.grayscale / 100})
+          hue-rotate(${selectedimage.imagevalues.hue_rotate}deg)       
+          invert(${selectedimage.imagevalues.invert / 100}) 
+          sepia(${selectedimage.imagevalues.sepia / 100})`;
+      }
+      // setvalues ui back
+      function setimageeffectvaluesback(i) {
+        document.querySelector("#imagebrightness").value = i
+          ? selectedimage.imagevalues.brightness
+          : 100;
+        document.querySelector(".imagebrightnessshow").innerHTML = i
+          ? selectedimage.imagevalues.brightness
+          : 100;
+        document.querySelector("#imagesaturation").value = i
+          ? selectedimage.imagevalues.saturation
+          : 100;
+        document.querySelector(".imagesaturationshow").innerHTML = i
+          ? selectedimage.imagevalues.saturation
+          : 100;
+        document.querySelector("#imagecontrast").value = i
+          ? selectedimage.imagevalues.contrast
+          : 100;
+        document.querySelector(".imagecontrastshow").innerHTML = i
+          ? selectedimage.imagevalues.contrast
+          : 100;
+        document.querySelector("#imagegrayscale").value = i
+          ? selectedimage.imagevalues.grayscale
+          : 0;
+        document.querySelector(".imagegrayscaleshow").innerHTML = i
+          ? selectedimage.imagevalues.grayscale
+          : 0;
+        document.querySelector("#imagehuerotate").value = i
+          ? selectedimage.imagevalues.hue_rotate
+          : 0;
+        document.querySelector(".imagehuerotateshow").innerHTML = i
+          ? selectedimage.imagevalues.hue_rotate
+          : 0;
+        document.querySelector("#imageinvert").value = i
+          ? selectedimage.imagevalues.invert
+          : 0;
+        document.querySelector(".imageinvertshow").innerHTML = i
+          ? selectedimage.imagevalues.invert
+          : 0;
+        document.querySelector("#imagesepia").value = i
+          ? selectedimage.imagevalues.sepia
+          : 0;
+        document.querySelector(".imagesepiashow").innerHTML = i
+          ? selectedimage.imagevalues.sepia
+          : 0;
+      }
       // <---apply masks --->
       let allmasks = document.querySelectorAll(".mask");
       allmasks.forEach((mask) => {
         mask.onclick = () => {
           if (selectedimage) {
             if (mask.getAttribute("noneelem")) {
-              selectedimage.style.maskImage = `unset`;
-              selectedimage.style.webkitMaskImage = `unset`;
+              selectedimage.image.style.maskImage = `unset`;
+              selectedimage.image.style.webkitMaskImage = `unset`;
             } else {
-              selectedimage.style.maskImage = `url(${mask.src})`;
-              selectedimage.style.webkitMaskImage = `url(${mask.src})`;
+              selectedimage.image.style.maskImage = `url(${mask.src})`;
+              selectedimage.image.style.webkitMaskImage = `url(${mask.src})`;
             }
           } else {
             showalertbox("Please select a Photo first");
@@ -2121,55 +2583,58 @@
           clearInterval(timer);
           clearTimeout(timeout);
           // creating loop
-          // snow
-          if (i == 1) {
-            let numberOfelements = 100;
-            timer = setInterval(() => {
-              seffectcreatorfunction(i);
-            }, (15 / numberOfelements) * 1000);
-            timeout = setTimeout(() => {
-              clearTimeout(timer);
-            }, 15000);
-          }
-          // balloon || bubbles
-          if (i == 2 || i == 4) {
-            let numberOfelements = 10;
-            timer = setInterval(() => {
-              seffectcreatorfunction(i);
-            }, (15 / numberOfelements) * 1000);
-            timeout = setTimeout(() => {
-              clearTimeout(timer);
-            }, 15000);
-          }
-          // star
-          if (i == 3) {
-            let numberOfelements;
-            if (window.innerWidth < 450) {
-              numberOfelements = 50;
-            } else {
-              numberOfelements = 100;
-            }
-            timer = setInterval(() => {
-              seffectcreatorfunction(i);
-            }, (15 / numberOfelements) * 1000);
-            timeout = setTimeout(() => {
-              clearTimeout(timer);
-            }, 15000);
-          }
-          // sakura
-          if (i == 5) {
-            let numberOfelements;
-            numberOfelements = 50;
-            timer = setInterval(() => {
-              seffectcreatorfunction(i);
-            }, (15 / numberOfelements) * 1000);
-            timeout = setTimeout(() => {
-              clearTimeout(timer);
-            }, 15000);
-          }
+          seffectloop(i);
         };
       });
-
+      // seffect loop function
+      function seffectloop(i) {
+        // snow
+        if (i == 1) {
+          let numberOfelements = 100;
+          timer = setInterval(() => {
+            seffectcreatorfunction(i);
+          }, (15 / numberOfelements) * 1000);
+          timeout = setTimeout(() => {
+            clearTimeout(timer);
+          }, 15000);
+        }
+        // balloon || bubbles
+        if (i == 2 || i == 4) {
+          let numberOfelements = 10;
+          timer = setInterval(() => {
+            seffectcreatorfunction(i);
+          }, (15 / numberOfelements) * 1000);
+          timeout = setTimeout(() => {
+            clearTimeout(timer);
+          }, 15000);
+        }
+        // star
+        if (i == 3) {
+          let numberOfelements;
+          if (window.innerWidth < 450) {
+            numberOfelements = 50;
+          } else {
+            numberOfelements = 100;
+          }
+          timer = setInterval(() => {
+            seffectcreatorfunction(i);
+          }, (15 / numberOfelements) * 1000);
+          timeout = setTimeout(() => {
+            clearTimeout(timer);
+          }, 15000);
+        }
+        // sakura
+        if (i == 5) {
+          let numberOfelements;
+          numberOfelements = 50;
+          timer = setInterval(() => {
+            seffectcreatorfunction(i);
+          }, (15 / numberOfelements) * 1000);
+          timeout = setTimeout(() => {
+            clearTimeout(timer);
+          }, 15000);
+        }
+      }
       // seffect creator fucntion
       function seffectcreatorfunction(value) {
         const element = document.createElement("div");
@@ -2190,7 +2655,7 @@
         // balloons
         if (value == 2) {
           element.className = "balloon";
-          element.style.width = Math.random() * 100 + 50 + "px";
+          element.style.width = Math.random() * 50 + 40 + "px";
           element.style.left = Math.random() * (window.innerWidth - 100) + "px";
           element.style.animation =
             "moveup " + (Math.random() * 4 + 4) + "s infinite ease-in";
@@ -2204,10 +2669,10 @@
         }
         if (value == 4) {
           element.className = "bubble";
-          element.style.height = Math.random() * 100 + 50 + "px";
+          element.style.height = Math.random() * 50 + 30 + "px";
           element.style.left = Math.random() * (window.innerWidth - 100) + "px";
           element.style.animation =
-            "moveup " + (Math.random() * 4 + 3) + "s infinite ease-in";
+            "moveup " + (Math.random() * 5 + 4) + "s infinite ease-in";
         }
         if (value == 5) {
           element.className = "sakuracontainer";
@@ -2218,9 +2683,9 @@
             " " +
             (Math.random() * 5 + 7) +
             "s ease-in-out infinite";
-          element.style.opacity = Math.random()*0.7+0.3;
+          element.style.opacity = Math.random() * 0.7 + 0.3;
           element.style.height = Math.random() * 15 + 10 + "px";
-          element.style.left = Math.random() * window.innerWidth+"px";
+          element.style.left = Math.random() * window.innerWidth + "px";
         }
         //
         document.querySelector(".effectscreenview").appendChild(element);
@@ -2252,6 +2717,37 @@
                 (item.top / data[0].cardheight) * 100 + "%";
               newimage.image.style.maskImage = item.mask;
               newimage.image.style.webkitMaskImage = item.mask;
+              //
+              // imagevalues
+              newimage.image.style.filter = ` brightness(${
+                item.imagevalues.brightness / 100
+              }) 
+              saturate(${item.imagevalues.saturation / 100}) 
+              contrast(${item.imagevalues.contrast / 100}) 
+              grayscale(${item.imagevalues.grayscale / 100})
+              hue-rotate(${item.imagevalues.hue_rotate}deg)       
+              invert(${item.imagevalues.invert / 100}) 
+              sepia(${item.imagevalues.sepia / 100})`;
+              //
+              newimage.image.style.transform =
+                "rotateX(" +
+                item.imagevalues.invertup +
+                "deg) rotateY(" +
+                item.imagevalues.invertside +
+                "deg)";
+              //set values
+              newimage.imagevalues = {
+                invertup: item.imagevalues.invertup,
+                invertside: item.imagevalues.invertside,
+                brightness: item.imagevalues.brightness,
+                saturation: item.imagevalues.saturation,
+                contrast: item.imagevalues.contrast,
+                grayscale: item.imagevalues.grayscale,
+                hue_rotate: item.imagevalues.hue_rotate,
+                invert: item.imagevalues.invert,
+                sepia: item.imagevalues.sepia,
+              };
+              //
               previewRect.appendChild(newimage.imagecontainer);
               addedimagearray.push(newimage);
             });
@@ -2323,6 +2819,10 @@
               addedtextarray.push(textelement);
             });
             fontresize();
+            // screen effects
+            seffectnumber = data[0].seffectnumber;
+            seffectloop(data[0].seffectnumber);
+            removeborders();
             //
             setTimeout(() => {
               document.querySelector(".loading").style.display = "none";
@@ -2347,8 +2847,22 @@
     </script>
     <!-- preview and data share script -->
     <script>
+      // saveas
+      function showsaveas() {
+        document.querySelector(".saveasscreen").style.display = "grid";
+        document.querySelector("#projectname").focus()
+        document.querySelector("#projectname").value="Untitled-1"
+        document.querySelector("#projectname").select()
+        document.querySelector("#projectname").setSelectionRange(0, 99999)
+
+      }
+      function hidesaveas() {
+        document.querySelector(".saveasscreen").style.display = "none";
+      }
+      //preview
       function prewiew() {
         let data = {
+          name:document.querySelector("#projectname").value,
           cardwidth: previewRect.offsetWidth,
           cardheight: previewRect.offsetHeight,
           cardbackground: previewRect.style.backgroundImage,
@@ -2389,6 +2903,7 @@
             imagedata.height = item.imagecontainer.offsetHeight;
             imagedata.image = item.image.src;
             imagedata.mask = item.image.style.maskImage;
+            imagedata.imagevalues = item.imagevalues;
             data.images.push(imagedata);
           }
         });
@@ -2404,6 +2919,7 @@
           .then((response) => response.json())
           .then((data) => {
             setTimeout(() => {
+              hidesaveas()
               document.querySelector(".loading").style.display = "none";
               window.open("/preview.html?id=" + data.id);
             }, 2500);

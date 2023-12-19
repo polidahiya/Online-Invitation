@@ -32,6 +32,7 @@
       }
       .hideeffectbutton {
         position: fixed;
+        width: 100px;
         bottom: 10px;
         right: 10px;
         color: white;
@@ -39,6 +40,8 @@
         padding: 10px;
         background-color: transparent;
         border-radius: 100px;
+        z-index: 100;
+        backdrop-filter: blur(10px);
       }
       .hideeffectbutton:hover {
         background-color: rgb(0, 170, 255);
@@ -524,6 +527,22 @@
         }
       }
     </style>
+    <!-- mobile css -->
+    <style>
+      @media screen and (width<450px) {
+        .hideeffectbutton:hover {
+          background-color: unset;
+        }
+        .main {
+          width: 100%;
+          max-width: unset;
+        }
+        .menu {
+          width: 100%;
+          border-left: unset;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="loading">
@@ -634,6 +653,24 @@
             image.style.maskImage = item.mask;
             image.style.webkitMaskImage = item.mask;
             image.src = item.image;
+            // imagevalues
+            image.style.filter = ` brightness(${
+              item.imagevalues.brightness / 100
+            }) 
+              saturate(${item.imagevalues.saturation / 100}) 
+              contrast(${item.imagevalues.contrast / 100}) 
+              grayscale(${item.imagevalues.grayscale / 100})
+              hue-rotate(${item.imagevalues.hue_rotate}deg)       
+              invert(${item.imagevalues.invert / 100}) 
+              sepia(${item.imagevalues.sepia / 100})`;
+            //
+            image.style.transform =
+              "rotateX(" +
+              item.imagevalues.invertup +
+              "deg) rotateY(" +
+              item.imagevalues.invertside +
+              "deg)";
+            //
             main.appendChild(image);
           });
           // settext
