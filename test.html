@@ -1,44 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Convert to JPEG</title>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <style>
-      #myDiv {
-        background-color: red;
-        width: 180px;
-        aspect-ratio: 3/5;
-      }
-      img{
-        width: 180px;
-        aspect-ratio: 3/5;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="myDiv">
-      <p>Hello, this is my content!</p>
-    </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Upload</title>
+</head>
+<body>
+  <input type="file" id="imageInput">
+  <input type="number" id="left" placeholder="Left">
+  <input type="number" id="top" placeholder="Top">
+  <input type="number" id="width" placeholder="Width">
+  <input type="number" id="height" placeholder="Height">
+  
+  <button onclick="uploadImage()">Upload Image</button>
 
-    <button id="convertButton">Convert to JPEG</button>
+  <script>
+    async function uploadImage() {
+      const fileInput = document.getElementById('imageInput');
+      const imageFile = fileInput.files[0];
 
-    <script>
-      document
-        .getElementById("convertButton")
-        .addEventListener("click", function () {
-          // Use html2canvas with custom options
-          html2canvas(document.getElementById("myDiv"), {
-            width: 240,
-            height: 400,
-          }).then(function (canvas) {
-            var imageData = canvas.toDataURL("image/jpeg");
-            var link = document.createElement("img");
-            link.src = imageData;
-            document.body.appendChild(link)
-          });
+      if (!imageFile) {
+        console.error('No file selected');
+        return;
+      }
+
+      // Get position and size data
+      const left = document.getElementById('left').value || 0;
+      const top = document.getElementById('top').value || 0;
+      const width = document.getElementById('width').value || 100;
+      const height = document.getElementById('height').value || 100;
+
+      const formData = new FormData();
+      formData.append('image', imageFile);
+      formData.append('left', left);
+      formData.append('top', top);
+      formData.append('width', width);
+      formData.append('height', height);
+
+      try {
+        const response = await fetch('/upload', {
+          method: 'POST',
+          body: formData,
         });
-    </script>
-  </body>
+
+        if (response.ok) {
+          console.log('Image uploaded successfully');
+        } else {
+          console.error('Failed to upload image');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+  </script>
+</body>
 </html>

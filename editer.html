@@ -968,7 +968,7 @@
     <div class="saveasscreen">
       <div class="saveascontainer">
         <p>Save as</p>
-        <input type="text" name="" id="projectname"  />
+        <input type="text" name="" id="projectname" />
         <div class="buttonscontainer">
           <button class="save" onclick="prewiew()">Save</button>
           <button class="cancel" onclick="hidesaveas()">Cancel</button>
@@ -2850,11 +2850,10 @@
       // saveas
       function showsaveas() {
         document.querySelector(".saveasscreen").style.display = "grid";
-        document.querySelector("#projectname").focus()
-        document.querySelector("#projectname").value="Untitled-1"
-        document.querySelector("#projectname").select()
-        document.querySelector("#projectname").setSelectionRange(0, 99999)
-
+        document.querySelector("#projectname").focus();
+        document.querySelector("#projectname").value = "Untitled-1";
+        document.querySelector("#projectname").select();
+        document.querySelector("#projectname").setSelectionRange(0, 99999);
       }
       function hidesaveas() {
         document.querySelector(".saveasscreen").style.display = "none";
@@ -2862,7 +2861,7 @@
       //preview
       function prewiew() {
         let data = {
-          name:document.querySelector("#projectname").value,
+          name: document.querySelector("#projectname").value,
           cardwidth: previewRect.offsetWidth,
           cardheight: previewRect.offsetHeight,
           cardbackground: previewRect.style.backgroundImage,
@@ -2908,18 +2907,17 @@
           }
         });
         // send data
+        let formdata = new FormData();
+        formdata.append("data", JSON.stringify(data));
         document.querySelector(".loading").style.display = "grid";
         fetch("/savecard", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+          body: formdata,
         })
           .then((response) => response.json())
           .then((data) => {
             setTimeout(() => {
-              hidesaveas()
+              hidesaveas();
               document.querySelector(".loading").style.display = "none";
               window.open("/preview.html?id=" + data.id);
             }, 2500);
@@ -2929,6 +2927,41 @@
             showalertbox("Unable to save");
           });
       }
+      // Function to resize an image using canvas
+      function resizeImage(inputFile, callback) {
+        var img = new Image();
+
+        img.onload = function () {
+          var canvas = document.createElement("canvas");
+          var ctx = canvas.getContext("2d");
+          var maxWidth = 1920;
+          var maxHeight = 1080;
+          var width = img.width;
+          var height = img.height;
+          if (width > maxWidth || height > maxHeight) {
+            var aspectRatio = width / height;
+            if (aspectRatio > 1) {
+              width = maxWidth;
+              height = maxWidth / aspectRatio;
+            } else {
+              height = maxHeight;
+              width = maxHeight * aspectRatio;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+          var originalType = inputFile.type.split("/")[1]; // Extract the image type (e.g., 'jpeg', 'png', etc.)
+          var resizedDataURL = canvas.toDataURL(`image/${originalType}`);
+          callback(resizedDataURL);
+        };
+        img.src = URL.createObjectURL(inputFile);
+      }
+      var inputFile = document.getElementById("fileInput").files[0]; // Assuming you have an input element with type="file" and id="fileInput"
+      resizeImage(inputFile, function (resizedDataURL) {
+        // Do something with the resized data URL, e.g., display it or send it to the server
+        console.log(resizedDataURL);
+      });
     </script>
   </body>
 </html>
