@@ -557,7 +557,9 @@
     </div>
     <button class="menubutton" onclick="togglemenu(this)"></button>
     <div class="menu">
-      <div class="logo">Online Invitation</div>
+      <a href="/" class="logo">
+        Online Invitation
+      </a>
       <div class="linkbox">
         <div class="link"></div>
         <button class="copylinkbtn" onclick="copytoclipboard()">
@@ -587,8 +589,28 @@
       let link = new URL(location.href);
       document.querySelector(".link").innerHTML = link;
       // copytoclipboard function
-      function copytoclipboard() {
-        navigator.clipboard.writeText(link);
+      function copytoclipboard(id) {
+        if (navigator.clipboard) {
+          navigator.clipboard
+            .writeText(link)
+            .then(function () {
+              showalertbox("Link copied!");
+            })
+            .catch(function (err) {
+              console.error("Unable to copy to clipboard", err);
+              fallbackCopyTextToClipboard(link);
+            });
+        } else {
+          fallbackCopyTextToClipboard(link);
+        }
+      }
+      function fallbackCopyTextToClipboard(text) {
+        var textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
         showalertbox("Link copied!");
       }
       // toggle menu
@@ -635,7 +657,6 @@
       fetch("/previewdata?id=:" + link.searchParams.get("id"))
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           main.style.backgroundImage =
             data[0].cardbackground == ""
               ? "url(./Assets/Backgrounds/Static/background1.jpg)"
@@ -671,7 +692,6 @@
               item.imagevalues.invertside +
               "deg)";
             //
-            console.log(item.image["image"]);
             main.appendChild(image);
           });
           // settext
@@ -732,14 +752,12 @@
           fontresize();
           screeneffect(data[0].seffectnumber);
           //
-          setTimeout(() => {
-            document.querySelector(".loading").style.display = "none";
-            // animation effects
-            main.childNodes.forEach((elem, i) => {
-              elem.style.animation =
-                data[0].animation + " 0.5s " + i * 0.1 + "s forwards";
-            });
-          }, 2500);
+          document.querySelector(".loading").style.display = "none";
+          // animation effects
+          main.childNodes.forEach((elem, i) => {
+            elem.style.animation =
+              data[0].animation + " 0.5s " + i * 0.1 + "s forwards";
+          });
         })
         .catch((err) => {
           document.querySelector(".loading").style.display = "none";
@@ -756,6 +774,9 @@
       window.onresize = fontresize;
       // screen effect
       function screeneffect(i) {
+        if (i == 0) {
+          document.querySelector(".hideeffectbutton").style.display = "none";
+        }
         if (i == 1) {
           let numberOfelements = 100;
           timer = setInterval(() => {

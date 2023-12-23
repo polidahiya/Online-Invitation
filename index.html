@@ -24,10 +24,29 @@
         --theme: rgb(0, 170, 255);
         margin-top: 50px;
         background-color: rgb(186, 186, 186);
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
       }
       body::-webkit-scrollbar {
         width: 0;
       }
+      /*  */
+      .backgroundimage {
+        position: fixed;
+        top: 50px;
+        left: 0;
+        height: 400px;
+        width: 100vw;
+        background-image: linear-gradient(
+          135deg,
+          rgb(0, 102, 255),
+          rgb(192, 238, 255)
+        );
+        mask-image: linear-gradient(black, transparent);
+        -webkit-mask-image: linear-gradient(black, transparent);
+        z-index: -1;
+      }
+      /*  */
       nav {
         height: 50px;
         width: 100vw;
@@ -54,6 +73,9 @@
         padding: 5px;
         box-sizing: border-box;
         border-radius: 50%;
+        background: url(Assets/uicomponents/menu.svg) center / 60% 60% no-repeat;
+        border: none;
+        display: none;
       }
       .menubutton:hover {
         background-color: rgb(85, 85, 85);
@@ -73,6 +95,7 @@
         -webkit-background-clip: Text;
         user-select: none;
         cursor: pointer;
+        margin-left: 20px;
       }
       .rightnav {
         margin-left: auto;
@@ -88,38 +111,74 @@
         background-size: cover;
         margin-right: 10px;
       }
-      /*  */
-      .backgroundimage {
+      /* menu */
+      .menu hr {
+        width: 70%;
+      }
+      .menu {
         position: fixed;
         top: 50px;
         left: 0;
-        height: 400px;
-        width: 100vw;
-        background-image: linear-gradient(
-          135deg,
-          rgb(0, 102, 255),
-          rgb(192, 238, 255)
-        );
-        mask-image: linear-gradient(black, transparent);
-        -webkit-mask-image: linear-gradient(black, transparent);
-        z-index: -1;
+        height: calc(100vh - 50px);
+        width: 200px;
+        background-color: rgb(255, 255, 255);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+        box-sizing: border-box;
+        z-index: 50;
+        transition: 0.4s linear;
+      }
+      .menu button {
+        height: 40px;
+        width: 90%;
+        display: flex;
+        align-items: center;
+        border: none;
+        cursor: pointer;
+        border-radius: 10px;
+        position: relative;
+        padding: 0;
+      }
+      .menu button img {
+        height: 60%;
+        margin-left: 8px;
+      }
+      .menu button p {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: sans-serif;
+        font-size: 16px;
       }
       /*  */
+      .ads {
+        position: fixed;
+        top: 50px;
+        right: 0;
+        height: calc(100vh - 50px);
+        width: 200px;
+        background-color: rgb(255, 255, 255);
+        z-index: 50;
+      }
       /*  */
-      .createyourown {
+      .bottomcreate {
         height: 50px;
         width: 100vw;
         position: fixed;
         bottom: 0;
         background-color: white;
-        display: flex;
+        display: none;
         align-items: center;
         justify-content: center;
-        z-index: 100;
+        z-index: 10;
+        transition: 0.4s;
       }
-      .createyourown a {
+      .bottomcreate a,
+      .menu a {
         height: 35px;
-        width: 200px;
+        width: 180px;
         border-radius: 50px;
         border: none;
         cursor: pointer;
@@ -133,11 +192,13 @@
         gap: 10px;
         text-decoration: none;
       }
-      .createyourown a img {
+      .bottomcreate a img,
+      .menu a img {
         height: 70%;
         margin-left: 7px;
       }
-      .createyourown a p {
+      .bottomcreate a p,
+      .menu a p {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -146,7 +207,8 @@
         font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
           "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
       }
-      .createyourown a div {
+      .bottomcreate a div,
+      .menu a div {
         height: 100%;
         width: 200%;
         position: absolute;
@@ -162,13 +224,14 @@
         pointer-events: none;
         transition: 0.3s;
       }
-      .createyourown a:hover div {
+      .bottomcreate a:hover div,
+      .menu a:hover div {
         left: 0%;
       }
       /*  */
       .cardcontainer {
         height: 320px;
-        width: calc(100vw - 20px);
+        width: calc(100vw - 440px);
         max-width: 80vw;
         background-color: rgb(255, 255, 255);
         border-radius: 15px;
@@ -217,6 +280,30 @@
     </style>
     <!-- mobile -->
     <style>
+      /* tablet */
+      @media screen and (width<1000px) {
+        .menubutton {
+          display: block;
+        }
+        .logo {
+          margin-left: 0px;
+        }
+        .menu {
+          left: -100%;
+        }
+        .ads {
+          display: none;
+        }
+        /*  */
+        .bottomcreate {
+          display: flex;
+        }
+        /*  */
+        .cardcontainer {
+          width: 80vw;
+        }
+      }
+      /* mobile */
       @media screen and (width<450px) {
         .cardcontainer {
           width: calc(100vw - 20px);
@@ -459,40 +546,12 @@
         }
       }
     </style>
-  </head>
-  <body>
-    <div class="alert">
-      <img src="Assets/uicomponents/alert1.svg" alt="" />
-      <div class="message"></div>
-      <button onclick="hidealert()">X</button>
-      <div class="loadingline"></div>
-    </div>
-    <div class="backgroundimage"></div>
-    <nav>
-      <div class="leftnav">
-        <img class="menubutton" src="Assets/uicomponents/menu.svg" alt="" />
-        <div class="logo">Online Invitation</div>
-      </div>
-      <div class="rightnav">
-        <div
-          class="profile"
-          onclick="toggleforms('login_form-container', 'block', true)"
-        ></div>
-      </div>
-    </nav>
-    <div class="createyourown">
-      <a href="./editer.html">
-        <img src="Assets/uicomponents/plus-circle-svg.svg" alt="" />
-        <p>Create</p>
-        <div></div>
-      </a>
-    </div>
     <!-- headlines -->
     <style>
       .highlightscontainer {
         position: relative;
         height: 400px;
-        width: 80vw;
+        width: calc(100vw - 440px);
         overflow: hidden;
         box-sizing: border-box;
         color: white;
@@ -619,6 +678,13 @@
         background-color: var(--theme);
         height: 10px;
       }
+      /* tablet */
+      @media screen and (width<1000px) {
+        .highlightscontainer {
+          height: 400px;
+          width: 80vw;
+        }
+      }
       /* mobile view */
       @media screen and (width<450px) {
         .highlightscontainer {
@@ -645,6 +711,218 @@
         }
       }
     </style>
+    <!-- my cards -->
+    <style>
+      .mycards {
+        position: fixed;
+        top: 50px;
+        height: calc(100vh - 50px);
+        width: 100vw;
+        background-color: rgb(255, 255, 255);
+        overflow-y: hidden;
+        z-index: 100;
+        display: none;
+      }
+      .mycardsnav {
+        position: sticky;
+        top: 0;
+        left: 0;
+        height: 50px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        background-color: inherit;
+      }
+      .mycardsnav button {
+        height: 60%;
+        aspect-ratio: 1;
+        margin-left: 20px;
+        border: none;
+        cursor: pointer;
+        background-color: transparent;
+        background-image: url("Assets/uicomponents/back\ arrow.svg");
+        background-position: center;
+        background-size: contain;
+      }
+      .mycardsnav h3 {
+        margin-left: 10px;
+        font-weight: 400;
+      }
+      /*  */
+      .mycardsbody {
+        width: 100%;
+        height: calc(100svh - 100px);
+        overflow-y: scroll;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        place-items: center;
+        gap: 10px;
+        background: url(Assets/uicomponents/mycardsbakground.webp) center /
+          cover;
+      }
+      /* delete box */
+      .deletescreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100svh;
+        width: 100vw;
+        display: grid;
+        place-content: center;
+        z-index: 200;
+        background-color: rgba(0, 0, 0, 0.189);
+        backdrop-filter: blur(10px);
+        display: none;
+      }
+      .deleteboxontainer {
+        width: 250px;
+        aspect-ratio: 5/3;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border-radius: 10px;
+      }
+      .deleteboxontainer .buttons {
+        display: flex;
+        gap: 20px;
+      }
+      .deleteboxontainer .buttons button {
+        border: none;
+        padding: 5px 20px;
+        border-radius: 50px;
+        cursor: pointer;
+      }
+      .deleteboxontainer .buttons button:nth-of-type(1) {
+        background-color: rgb(255, 65, 65);
+        color: white;
+      }
+      /*  */
+      .mycardcardcontainer {
+        width: 180px;
+        aspect-ratio: 2.5/5;
+        position: relative;
+        margin-top: 20px;
+      }
+      .mycardcardcontainer:hover button {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .mycardsloading {
+        position: absolute;
+        top: 50%;
+        z-index: 100;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .mycardsgeneratedcard {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 3/5;
+        background-color: rgb(248, 177, 177);
+        border-radius: 10px;
+        background-size: 100% 100%;
+      }
+      .mycardcardcontainer p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: center;
+      }
+      /* card's inner image */
+      .images {
+        position: absolute;
+        object-fit: cover;
+        object-position: center;
+        mask-position: center;
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        -webkit-mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+      }
+      /* card's inner text */
+      .text {
+        position: absolute;
+        background-color: transparent;
+        text-align: left;
+        width: 200px;
+        display: grid;
+        place-content: center;
+        color: rgb(0, 0, 0);
+        box-sizing: border-box;
+      }
+      .text::-webkit-scrollbar {
+        height: 0;
+        width: 0;
+      }
+      /*  */
+      .mycardcardcontainer button {
+        height: 30px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        border: none;
+        position: absolute;
+        right: 10px;
+        background-size: 60% 60%;
+        background-position: center;
+        background-repeat: no-repeat;
+        cursor: pointer;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.4s;
+      }
+      .mycardsdelete {
+        right: unset;
+        left: 10px;
+        top: 10px;
+        background-image: url(Assets/uicomponents/delete\ black.svg);
+      }
+      .mycardsedit {
+        top: 10px;
+        background-image: url(Assets/uicomponents/edit\ black.svg);
+      }
+      .mycardslink {
+        top: 50px;
+        background-image: url(Assets/uicomponents/link\ black.svg);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="alert">
+      <img src="Assets/uicomponents/alert1.svg" alt="" />
+      <div class="message"></div>
+      <button onclick="hidealert()">X</button>
+      <div class="loadingline"></div>
+    </div>
+    <div class="backgroundimage"></div>
+    <nav>
+      <div class="leftnav">
+        <button class="menubutton" onclick="toggelemenu()"></button>
+        <div class="logo">Online Invitation</div>
+      </div>
+      <div class="rightnav">
+        <div
+          class="profile"
+          onclick="toggleforms('login_form-container', 'block', true)"
+        ></div>
+      </div>
+    </nav>
+    <div class="menu">
+      <a href="./editer.html">
+        <img src="Assets/uicomponents/plus-circle-svg.svg" alt="" />
+        <p>Create</p>
+        <div></div>
+      </a>
+      <hr />
+      <button onclick="showmycards()">
+        <img src="Assets/uicomponents/folder-with-files-black.svg" alt="" />
+        <p>My Cards</p>
+      </button>
+    </div>
+    <div class="ads"></div>
     <div class="highlightscontainer">
       <div class="specialleft" onclick="highlightsmove('left')"></div>
       <button class="left" onclick="highlightsmove('left')"></button>
@@ -681,6 +959,407 @@
       </div>
       <div class="dottscontainer"></div>
     </div>
+    <!--  -->
+    <div class="cardcontainer">
+      <div class="cardcontainertitle">Wedding cards</div>
+      <div class="cardsscrollcontainer">
+        <a href="./editer.html?id=6577e34927ebde3cd9db6a99">
+          <div class="card"></div>
+        </a>
+        <a href="./editer.html?id=6577e34927ebde3cd9db6a99">
+          <div class="card"></div>
+        </a>
+        <a href="./editer.html?id=6577e34927ebde3cd9db6a99">
+          <div class="card"></div>
+        </a>
+        <a href="./editer.html?id=6577e34927ebde3cd9db6a99">
+          <div class="card"></div>
+        </a>
+        <a href="./editer.html?id=6577e34927ebde3cd9db6a99">
+          <div class="card"></div>
+        </a>
+        <a href="./editer.html?id=6577e34927ebde3cd9db6a99">
+          <div class="card"></div>
+        </a>
+      </div>
+    </div>
+    <!-- my cards folder -->
+    <div class="mycards">
+      <div class="mycardsnav">
+        <button onclick="hidemycards()"></button>
+        <h3>My cards</h3>
+      </div>
+      <div class="mycardsbody">
+        <div class="deletescreen">
+          <div class="deleteboxontainer">
+            <p>Delete Untitled-1</p>
+            <div class="buttons">
+              <button class="delete">Delete</button>
+              <button class="cancel">cancel</button>
+            </div>
+          </div>
+        </div>
+        <div class="mycardsloading">Loading...</div>
+        <!--  -->
+        <div class="mycardcardcontainer">
+          <div class="mycardsgeneratedcard"></div>
+          <p>Title</p>
+          <a href="./editer.html" target="_blank">
+            <button class="mycardsedit"></button>
+          </a>
+          <button class="mycardslink"></button>
+          <button class="mycardsdelete"></button>
+        </div>
+      </div>
+    </div>
+    <!-- login form -->
+    <div class="formpage">
+      <div
+        class="canclebutton"
+        onclick="toggleforms('login_form-container', 'block', false)"
+      ></div>
+      <!-- signupform -->
+      <div class="signup_form-container forms">
+        <p class="title logo">Online Invitation</p>
+        <form class="form">
+          <input
+            type="email"
+            class="input"
+            placeholder="Email"
+            id="signup_email"
+          />
+          <input
+            type="password"
+            id="signup_password"
+            class="input"
+            placeholder="Password"
+          />
+          <p class="page-link">
+            <span class="page-link-label">Forgot Password?</span>
+          </p>
+          <button type="button" class="form-btn" onclick="Signup()">
+            Sign up
+          </button>
+        </form>
+        <p class="sign-up-label">
+          Already have an account?<span
+            class="sign-up-link"
+            onclick="toggleforms('login_form-container', 'block', true)"
+            >Log in</span
+          >
+        </p>
+        <div class="buttons-container">
+          <div class="apple-login-button">
+            <img src="Assets/uicomponents/appleicon.svg" alt="" />
+            <span>Sign up with Apple</span>
+          </div>
+          <div class="google-login-button">
+            <img src="Assets/uicomponents/googleicon.svg" alt="" />
+            <span>Sign up with Google</span>
+          </div>
+        </div>
+      </div>
+      <!-- login form -->
+      <div class="login_form-container forms">
+        <p class="title logo">Online Invitation</p>
+        <form class="form">
+          <input
+            type="email"
+            id="login_email"
+            class="input"
+            placeholder="Email"
+          />
+          <input
+            type="password"
+            id="login_password"
+            class="input"
+            placeholder="Password"
+          />
+          <p class="page-link">
+            <span class="page-link-label">Forgot Password?</span>
+          </p>
+          <button type="button" class="form-btn" onclick="Login()">
+            Log in
+          </button>
+        </form>
+        <p class="sign-up-label">
+          Don't have an account?<span
+            class="sign-up-link"
+            onclick="toggleforms('signup_form-container', 'block', true)"
+            >Sign up</span
+          >
+        </p>
+        <div class="buttons-container">
+          <div class="apple-login-button">
+            <img src="Assets/uicomponents/appleicon.svg" alt="" />
+            <span>Log in with Apple</span>
+          </div>
+          <div class="google-login-button">
+            <img src="Assets/uicomponents/googleicon.svg" alt="" />
+            <span>Log in with Google</span>
+          </div>
+        </div>
+      </div>
+      <!-- forget apssword -->
+    </div>
+    <div class="bottomcreate">
+      <a href="./editer.html">
+        <img src="Assets/uicomponents/plus-circle-svg.svg" alt="" />
+        <p>Create</p>
+        <div></div>
+      </a>
+    </div>
+    <!-- ui -->
+    <script>
+      // show alert
+      let alerttimer;
+      function showalertbox(value) {
+        document.querySelector(".alert").style.display = "none";
+        setTimeout(() => {
+          document.querySelector(".alert").style.display = "flex";
+          document.querySelector(".message").innerHTML = value;
+          clearTimeout(alerttimer);
+          alerttimer = setTimeout(() => {
+            document.querySelector(".alert").style.display = "none";
+          }, 3000);
+        }, 1);
+      }
+      // hidealert
+      function hidealert() {
+        document.querySelector(".alert").style.display = "none";
+      }
+      // check loged in or not
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(";").shift();
+      }
+      console.log(getCookie("token"));
+      // toggle menu
+      let menuflag = true;
+      function toggelemenu() {
+        if (menuflag) {
+          document.querySelector(".menu").style.left = "0%";
+          document.querySelector('.bottomcreate').style.transform="translateY(100%)"
+          menuflag = false;
+        } else {
+          document.querySelector(".menu").style.left = "-100%";
+          document.querySelector('.bottomcreate').style.transform="translateY(0%)"
+          menuflag = true;
+        }
+      }
+      // resize
+      window.onresize = () => {
+        if(window.innerWidth<1000){
+          menuflag = false;
+          toggelemenu()
+        }else{
+          menuflag = true;
+          toggelemenu()
+        }
+      };
+    </script>
+    <!-- my cards -->
+    <script>
+      // copy link button
+      let link = new URL(location.href);
+      function copytoclipboard(id) {
+        if (navigator.clipboard) {
+          navigator.clipboard
+            .writeText(link + "preview.html?id=" + id)
+            .then(function () {
+              showalertbox("Link copied!");
+            })
+            .catch(function (err) {
+              console.error("Unable to copy to clipboard", err);
+              fallbackCopyTextToClipboard(link + "preview.html?id=" + id);
+            });
+        } else {
+          fallbackCopyTextToClipboard(link + "preview.html?id=" + id);
+        }
+      }
+      function fallbackCopyTextToClipboard(text) {
+        var textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+        showalertbox("Link copied!");
+      }
+      // delete my card
+      // delte prompt
+      function deleteprompt(id) {
+        document.querySelector(".deletescreen").style.display = "grid";
+        document.querySelector(".deletescreen .buttons .delete").onclick =
+          () => {
+            deletemycard(id);
+            document.querySelector(".deletescreen").style.display = "none";
+          };
+        document.querySelector(".deletescreen .buttons .cancel").onclick =
+          () => {
+            document.querySelector(".deletescreen").style.display = "none";
+          };
+      }
+      // delete req
+      function deletemycard(id) {
+        //show loading
+        document.querySelector(".mycardsloading").style.display = "block";
+        //
+        fetch("/Deletetask", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: id }),
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            showalertbox("Card Deleted");
+            showmycards();
+          });
+      }
+      //hide cards
+      function hidemycards() {
+        document.querySelector(".mycards").style.display = "none";
+      }
+      // show cards
+      function showmycards() {
+        // delete previeous tasks
+        document.querySelectorAll(".mycardcardcontainer").forEach((item) => {
+          item.remove();
+        });
+        // show loading
+        document.querySelector(".mycardsloading").style.display = "block";
+        //
+        document.querySelector(".mycards").style.display = "block";
+        fetch("/mycards")
+          .then((res) => res.json())
+          .then((res) => {
+            // hide loading
+            document.querySelector(".mycardsloading").style.display = "none";
+            //if no cards
+            if (res.length == 0) {
+              document.querySelector(".mycardsloading").innerText =
+                "No cards yet";
+              document.querySelector(".mycardsloading").style.display = "block";
+            }
+            //
+            const reversedPosts = res.reverse();
+            reversedPosts.forEach((data) => {
+              let mycard = document.createElement("div");
+              mycard.classList.add("mycardcardcontainer");
+              mycard.innerHTML = `
+              <p>${data.name}</p>
+              <a href="./editer.html?id=${data._id}" target="_blank">
+               <button class="mycardsedit"></button>
+              </a>
+              <button class="mycardslink" onclick="copytoclipboard('${data._id}')"></button>
+              <button class="mycardsdelete" onclick="deleteprompt('${data._id}')"></button>
+              `;
+              //
+              let main = document.createElement("div");
+              main.classList.add("mycardsgeneratedcard");
+              main.style.backgroundImage =
+                data.cardbackground == ""
+                  ? "url(./Assets/Backgrounds/Static/background1.jpg)"
+                  : data.cardbackground;
+              // setimage
+              data.images.forEach((item) => {
+                let image = document.createElement("img");
+                image.classList.add("images");
+                image.style.width =
+                  "calc(" + (item.width / data.cardwidth) * 100 + "% + 4px)";
+                image.style.height =
+                  "calc(" + (item.height / data.cardheight) * 100 + "% + 4px)";
+                image.style.left = (item.left / data.cardwidth) * 100 + "%";
+                image.style.top = (item.top / data.cardheight) * 100 + "%";
+                image.style.maskImage = item.mask;
+                image.style.webkitMaskImage = item.mask;
+                image.src = item.image;
+                // imagevalues
+                image.style.filter = ` brightness(${
+                  item.imagevalues.brightness / 100
+                }) 
+                  saturate(${item.imagevalues.saturation / 100}) 
+                  contrast(${item.imagevalues.contrast / 100}) 
+                  grayscale(${item.imagevalues.grayscale / 100})
+                  hue-rotate(${item.imagevalues.hue_rotate}deg)       
+                  invert(${item.imagevalues.invert / 100}) 
+                  sepia(${item.imagevalues.sepia / 100})`;
+                //
+                image.style.transform =
+                  "rotateX(" +
+                  item.imagevalues.invertup +
+                  "deg) rotateY(" +
+                  item.imagevalues.invertside +
+                  "deg)";
+                //
+                main.appendChild(image);
+              });
+              // settext
+              data.texts.forEach((item) => {
+                let text = document.createElement("div");
+                text.classList.add("text");
+                text.innerText = item.innertext;
+                text.style.width = (item.width / data.cardwidth) * 100 + "%";
+                text.style.height = (item.height / data.cardheight) * 100 + "%";
+                text.style.left = (item.left / data.cardwidth) * 100 + "%";
+                text.style.top = (item.top / data.cardheight) * 100 + "%";
+                // gradient colors
+                if (item.color == "transparent") {
+                  text.style.backgroundImage =
+                    " linear-gradient(" +
+                    item.gangle +
+                    "deg," +
+                    item.gcolor1 +
+                    "," +
+                    item.gcolor2 +
+                    ")";
+                  text.style.color = "transparent";
+                  text.style.backgroundClip = "text";
+                  text.style.webkitBackgroundClip = "text";
+                } else {
+                  text.style.color = item.color == "" ? "black" : item.color;
+                }
+                //
+                text.style.fontFamily =
+                  item.fontFamily == "" ? "Calibri" : item.fontFamily;
+                text.style.fontStyle =
+                  item.fontStyle == "" ? "normal" : item.fontStyle;
+                text.style.fontWeight =
+                  item.fontWeight == "" ? "400" : item.fontWeight;
+                text.style.textAlign =
+                  item.textAlign == "" ? "left" : item.textAlign;
+                // glow
+                if (item.glowvalues.value == 0) {
+                  text.style.textShadow = "none";
+                } else {
+                  text.style.textShadow =
+                    "0 0 " +
+                    item.glowvalues.value * 3 * 1 +
+                    "px " +
+                    item.glowvalues.color +
+                    " ,0 0 " +
+                    item.glowvalues.value * 3 * 1.5 +
+                    "px " +
+                    item.glowvalues.color +
+                    " , 0 0 " +
+                    item.glowvalues.value * 3 * 2 +
+                    "px " +
+                    item.glowvalues.color;
+                }
+
+                main.appendChild(text);
+              });
+              //
+              mycard.insertBefore(main, mycard.children[0]);
+              document.querySelector(".mycardsbody").appendChild(mycard);
+            });
+          });
+      }
+    </script>
+    <!-- headings ads -->
     <script>
       let highlightcards = document.querySelectorAll(".headingcards");
       let hightlightscontainer = document.querySelector(
@@ -827,155 +1506,6 @@
         }, 5000);
       }
       sethighlightscrolltimer();
-    </script>
-    <!--  -->
-    <div class="cardcontainer">
-      <div class="cardcontainertitle">Wedding cards</div>
-      <div class="cardsscrollcontainer">
-        <a href="./editer.html?id=6577e34927ebde3cd9db6a99">
-          <div class="card"></div>
-        </a>
-        <a href="./editer.html?id=6577e34927ebde3cd9db6a99">
-          <div class="card"></div>
-        </a>
-        <a href="./editer.html?id=6577e34927ebde3cd9db6a99">
-          <div class="card"></div>
-        </a>
-        <a href="./editer.html?id=6577e34927ebde3cd9db6a99">
-          <div class="card"></div>
-        </a>
-        <a href="./editer.html?id=6577e34927ebde3cd9db6a99">
-          <div class="card"></div>
-        </a>
-        <a href="./editer.html?id=6577e34927ebde3cd9db6a99">
-          <div class="card"></div>
-        </a>
-      </div>
-    </div>
-    <div class="cardcontainer">
-      <div class="cardcontainertitle">Wedding cards</div>
-      <div class="cardsscrollcontainer"></div>
-    </div>
-    <div class="cardcontainer">
-      <div class="cardcontainertitle">Wedding cards</div>
-      <div class="cardsscrollcontainer"></div>
-    </div>
-    <!-- login form -->
-    <div class="formpage">
-      <div
-        class="canclebutton"
-        onclick="toggleforms('login_form-container', 'block', false)"
-      ></div>
-      <!-- signupform -->
-      <div class="signup_form-container forms">
-        <p class="title logo">Online Invitation</p>
-        <form class="form">
-          <input
-            type="email"
-            class="input"
-            placeholder="Email"
-            id="signup_email"
-          />
-          <input
-            type="password"
-            id="signup_password"
-            class="input"
-            placeholder="Password"
-          />
-          <p class="page-link">
-            <span class="page-link-label">Forgot Password?</span>
-          </p>
-          <button type="button" class="form-btn" onclick="Signup()">
-            Sign up
-          </button>
-        </form>
-        <p class="sign-up-label">
-          Already have an account?<span
-            class="sign-up-link"
-            onclick="toggleforms('login_form-container', 'block', true)"
-            >Log in</span
-          >
-        </p>
-        <div class="buttons-container">
-          <div class="apple-login-button">
-            <img src="Assets/uicomponents/appleicon.svg" alt="" />
-            <span>Sign up with Apple</span>
-          </div>
-          <div class="google-login-button">
-            <img src="Assets/uicomponents/googleicon.svg" alt="" />
-            <span>Sign up with Google</span>
-          </div>
-        </div>
-      </div>
-      <!-- login form -->
-      <div class="login_form-container forms">
-        <p class="title logo">Online Invitation</p>
-        <form class="form">
-          <input
-            type="email"
-            id="login_email"
-            class="input"
-            placeholder="Email"
-          />
-          <input
-            type="password"
-            id="login_password"
-            class="input"
-            placeholder="Password"
-          />
-          <p class="page-link">
-            <span class="page-link-label">Forgot Password?</span>
-          </p>
-          <button type="button" class="form-btn" onclick="Login()">
-            Log in
-          </button>
-        </form>
-        <p class="sign-up-label">
-          Don't have an account?<span
-            class="sign-up-link"
-            onclick="toggleforms('signup_form-container', 'block', true)"
-            >Sign up</span
-          >
-        </p>
-        <div class="buttons-container">
-          <div class="apple-login-button">
-            <img src="Assets/uicomponents/appleicon.svg" alt="" />
-            <span>Log in with Apple</span>
-          </div>
-          <div class="google-login-button">
-            <img src="Assets/uicomponents/googleicon.svg" alt="" />
-            <span>Log in with Google</span>
-          </div>
-        </div>
-      </div>
-      <!-- forget apssword -->
-    </div>
-    <!-- ui -->
-    <script>
-      // show alert
-      let alerttimer;
-      function showalertbox(value) {
-        document.querySelector(".alert").style.display = "none";
-        setTimeout(() => {
-          document.querySelector(".alert").style.display = "flex";
-          document.querySelector(".message").innerHTML = value;
-          clearTimeout(alerttimer);
-          alerttimer = setTimeout(() => {
-            document.querySelector(".alert").style.display = "none";
-          }, 3000);
-        }, 1);
-      }
-      // hidealert
-      function hidealert() {
-        document.querySelector(".alert").style.display = "none";
-      }
-      // check loged in or not
-      function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(";").shift();
-      }
-      console.log(getCookie("token"));
     </script>
     <!-- signup and login  -->
     <script>
