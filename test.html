@@ -1,57 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image Upload</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #resizableDiv {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background-color: lightblue;
+            touch-action: none; /* Disable default touch actions for the element */
+        }
+    </style>
 </head>
 <body>
-  <input type="file" id="imageInput">
-  <input type="number" id="left" placeholder="Left">
-  <input type="number" id="top" placeholder="Top">
-  <input type="number" id="width" placeholder="Width">
-  <input type="number" id="height" placeholder="Height">
-  
-  <button onclick="uploadImage()">Upload Image</button>
 
-  <script>
-    async function uploadImage() {
-      const fileInput = document.getElementById('imageInput');
-      const imageFile = fileInput.files[0];
+<div id="resizableDiv" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)">
+    <!-- Content of the resizable div goes here -->
+</div>
 
-      if (!imageFile) {
-        console.error('No file selected');
-        return;
-      }
+<script>
+    let startX, startY, startWidth, startHeight;
 
-      // Get position and size data
-      const left = document.getElementById('left').value || 0;
-      const top = document.getElementById('top').value || 0;
-      const width = document.getElementById('width').value || 100;
-      const height = document.getElementById('height').value || 100;
-
-      const formData = new FormData();
-      formData.append('image', imageFile);
-      formData.append('left', left);
-      formData.append('top', top);
-      formData.append('width', width);
-      formData.append('height', height);
-
-      try {
-        const response = await fetch('/upload', {
-          method: 'POST',
-          body: formData,
-        });
-
-        if (response.ok) {
-          console.log('Image uploaded successfully');
-        } else {
-          console.error('Failed to upload image');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-      }
+    function handleTouchStart(e) {
+        const touch = e.touches[0];
+        startX = touch.clientX;
+        startY = touch.clientY;
+        startWidth = parseInt(document.getElementById('resizableDiv').style.width, 10);
+        startHeight = parseInt(document.getElementById('resizableDiv').style.height, 10);
     }
-  </script>
+
+    function handleTouchMove(e) {
+        e.preventDefault();
+
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - startX;
+        const deltaY = touch.clientY - startY;
+
+        const newWidth = startWidth + deltaX;
+        const newHeight = startHeight + deltaY;
+
+        document.getElementById('resizableDiv').style.width = newWidth + 'px';
+        document.getElementById('resizableDiv').style.height = newHeight + 'px';
+    }
+</script>
+
 </body>
 </html>

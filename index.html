@@ -26,9 +26,14 @@
         background-color: rgb(186, 186, 186);
         font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
           sans-serif;
+        user-select: none;
       }
       body::-webkit-scrollbar {
         width: 0;
+      }
+      /*  */
+      .displaynone {
+        display: none !important;
       }
       /*  */
       .backgroundimage {
@@ -100,6 +105,16 @@
       .rightnav {
         margin-left: auto;
       }
+      .navmycardsbutton {
+        height: 30px;
+        aspect-ratio: 1;
+        cursor: pointer;
+        box-sizing: border-box;
+        background-image: url(Assets/uicomponents/folder-with-files-white.svg);
+        background-position: center;
+        background-size: cover;
+        margin-right: 10px;
+      }
       .profile {
         height: 30px;
         aspect-ratio: 1;
@@ -115,6 +130,16 @@
       .menu hr {
         width: 70%;
       }
+      .menucancel {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        background-color: rgba(0, 0, 0, 0.3);
+        z-index: 49;
+        display: none;
+      }
       .menu {
         position: fixed;
         top: 50px;
@@ -126,9 +151,10 @@
         flex-direction: column;
         align-items: center;
         padding-top: 20px;
+        padding-bottom: 30px;
         box-sizing: border-box;
         z-index: 50;
-        transition: 0.4s linear;
+        transition: 0.4s;
       }
       .menu button {
         height: 40px;
@@ -151,6 +177,9 @@
         transform: translateX(-50%);
         font-family: sans-serif;
         font-size: 16px;
+      }
+      .logoutseprator {
+        margin-top: auto;
       }
       /*  */
       .ads {
@@ -289,7 +318,11 @@
           margin-left: 0px;
         }
         .menu {
-          left: -100%;
+          transform: translateX(-100%);
+          z-index: 110;
+        }
+        .menucancel {
+          z-index: 109;
         }
         .ads {
           display: none;
@@ -311,7 +344,7 @@
         }
       }
     </style>
-    <!-- form -->
+    <!--login logout form -->
     <style>
       .formpage {
         height: 100vh;
@@ -863,7 +896,7 @@
         height: 30px;
         aspect-ratio: 1;
         border-radius: 50%;
-        border: none;
+        border: 1.5px solid rgb(181, 181, 181);
         position: absolute;
         right: 10px;
         background-size: 60% 60%;
@@ -898,18 +931,22 @@
       <div class="loadingline"></div>
     </div>
     <div class="backgroundimage"></div>
+    <!-- nav -->
     <nav>
       <div class="leftnav">
         <button class="menubutton" onclick="toggelemenu()"></button>
         <div class="logo">Online Invitation</div>
       </div>
       <div class="rightnav">
+        <div class="navmycardsbutton" onclick="showmycards()"></div>
         <div
           class="profile"
           onclick="toggleforms('login_form-container', 'block', true)"
         ></div>
       </div>
     </nav>
+    <!-- menu -->
+    <div class="menucancel" onclick="toggelemenu()"></div>
     <div class="menu">
       <a href="./editer.html">
         <img src="Assets/uicomponents/plus-circle-svg.svg" alt="" />
@@ -920,6 +957,11 @@
       <button onclick="showmycards()">
         <img src="Assets/uicomponents/folder-with-files-black.svg" alt="" />
         <p>My Cards</p>
+      </button>
+      <hr class="logoutseprator logedincomp" />
+      <button onclick="logout()" class="logedincomp">
+        <img src="Assets/uicomponents/loged out black.svg" alt="" />
+        <p>Log out</p>
       </button>
     </div>
     <div class="ads"></div>
@@ -959,7 +1001,7 @@
       </div>
       <div class="dottscontainer"></div>
     </div>
-    <!--  -->
+    <!-- show card container -->
     <div class="cardcontainer">
       <div class="cardcontainertitle">Wedding cards</div>
       <div class="cardsscrollcontainer">
@@ -995,21 +1037,11 @@
             <p>Delete Untitled-1</p>
             <div class="buttons">
               <button class="delete">Delete</button>
-              <button class="cancel">cancel</button>
+              <button class="cancel">Cancel</button>
             </div>
           </div>
         </div>
         <div class="mycardsloading">Loading...</div>
-        <!--  -->
-        <div class="mycardcardcontainer">
-          <div class="mycardsgeneratedcard"></div>
-          <p>Title</p>
-          <a href="./editer.html" target="_blank">
-            <button class="mycardsedit"></button>
-          </a>
-          <button class="mycardslink"></button>
-          <button class="mycardsdelete"></button>
-        </div>
       </div>
     </div>
     <!-- login form -->
@@ -1102,6 +1134,7 @@
       </div>
       <!-- forget apssword -->
     </div>
+    <!-- bottom create -->
     <div class="bottomcreate">
       <a href="./editer.html">
         <img src="Assets/uicomponents/plus-circle-svg.svg" alt="" />
@@ -1128,34 +1161,57 @@
       function hidealert() {
         document.querySelector(".alert").style.display = "none";
       }
+      // toggle menu
+      let menuflag = true;
+      function toggelemenu() {
+        if (menuflag) {
+          document.querySelector(".menu").style.transform = "translateX(0%)";
+          document.querySelector(".menucancel").style.display = "block";
+          document.querySelector(".bottomcreate").style.transform =
+            "translateY(100%)";
+          menuflag = false;
+        } else {
+          document.querySelector(".menu").style.transform = "translateX(-100%)";
+          document.querySelector(".menucancel").style.display = "none";
+          document.querySelector(".bottomcreate").style.transform =
+            "translateY(0%)";
+          menuflag = true;
+        }
+      }
       // check loged in or not
       function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(";").shift();
       }
-      console.log(getCookie("token"));
-      // toggle menu
-      let menuflag = true;
-      function toggelemenu() {
-        if (menuflag) {
-          document.querySelector(".menu").style.left = "0%";
-          document.querySelector('.bottomcreate').style.transform="translateY(100%)"
-          menuflag = false;
+      // loged in or not
+      function changeui() {
+        if (getCookie("logedin")) {
+          // loged in ui
+          document.querySelectorAll(".logedincomp").forEach((item) => {
+            item.classList.remove("displaynone");
+          });
         } else {
-          document.querySelector(".menu").style.left = "-100%";
-          document.querySelector('.bottomcreate').style.transform="translateY(0%)"
-          menuflag = true;
+          document.querySelectorAll(".logedincomp").forEach((item) => {
+            item.classList.add("displaynone");
+          });
         }
+      }
+      changeui();
+      // show logout message
+      if (localStorage.getItem("logoutmessage") == "true") {
+        showalertbox("logout successfully");
+        localStorage.setItem("logoutmessage", false);
       }
       // resize
       window.onresize = () => {
-        if(window.innerWidth<1000){
+        if (window.innerWidth < 1000) {
           menuflag = false;
-          toggelemenu()
-        }else{
+          toggelemenu();
+        } else {
           menuflag = true;
-          toggelemenu()
+          toggelemenu();
+          document.querySelector(".menucancel").style.display = "none";
         }
       };
     </script>
@@ -1189,8 +1245,11 @@
       }
       // delete my card
       // delte prompt
-      function deleteprompt(id) {
+      function deleteprompt(id, name) {
         document.querySelector(".deletescreen").style.display = "grid";
+        document.querySelector(".deleteboxontainer p").innerHTML =
+          "Delete " + name;
+        //
         document.querySelector(".deletescreen .buttons .delete").onclick =
           () => {
             deletemycard(id);
@@ -1225,6 +1284,20 @@
       }
       // show cards
       function showmycards() {
+        // show cards
+        document.querySelector(".mycards").style.display = "block";
+        // toggle menu if on mobile phone
+        if (window.innerWidth < 1000) {
+          menuflag = false;
+          toggelemenu();
+        }
+        // check login
+        if (!getCookie("logedin")) {
+          showalertbox("Please login first");
+          hidemycards();
+          toggleforms("login_form-container", "block", true);
+          return;
+        }
         // delete previeous tasks
         document.querySelectorAll(".mycardcardcontainer").forEach((item) => {
           item.remove();
@@ -1232,7 +1305,6 @@
         // show loading
         document.querySelector(".mycardsloading").style.display = "block";
         //
-        document.querySelector(".mycards").style.display = "block";
         fetch("/mycards")
           .then((res) => res.json())
           .then((res) => {
@@ -1255,7 +1327,7 @@
                <button class="mycardsedit"></button>
               </a>
               <button class="mycardslink" onclick="copytoclipboard('${data._id}')"></button>
-              <button class="mycardsdelete" onclick="deleteprompt('${data._id}')"></button>
+              <button class="mycardsdelete" onclick="deleteprompt('${data._id}','${data.name}')"></button>
               `;
               //
               let main = document.createElement("div");
@@ -1555,6 +1627,13 @@
       }
       // login
       function Login() {
+        // check already logedin
+        if (getCookie("logedin")) {
+          showalertbox("You are already logedin!");
+          toggleforms("login_form-container", "block", false);
+          return;
+        }
+        //
         data = {
           email: document.getElementById("login_email").value,
           password: document.getElementById("login_password").value,
@@ -1574,6 +1653,12 @@
             .then((res) => res.json())
             .then((res) => {
               showalertbox(res.message);
+              if (res.message == "Login successful") {
+                document.getElementById("login_email").value = "";
+                document.getElementById("login_password").value = "";
+                toggleforms("login_form-container", "block", false);
+                changeui();
+              }
             });
         } else {
           if (data.email == "") {
@@ -1585,6 +1670,20 @@
           }
         }
       }
+      // logout
+      function logout() {
+        fetch("/logout")
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.message == "logedout") {
+              // meaage for logout
+              localStorage.setItem("logoutmessage", true);
+              window.location.reload();
+            }
+          });
+      }
     </script>
   </body>
 </html>
+<!--  login and signup at same time,
+ -->
